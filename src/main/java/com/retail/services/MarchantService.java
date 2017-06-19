@@ -13,7 +13,7 @@ import com.retail.repositories.MarchantRepository;
 public class MarchantService {
 	
 	
-	MarchantRepository marchantRepository;
+	/*MarchantRepository marchantRepository;
     MarchantAuthRepository authRepository;
 	
 	
@@ -22,24 +22,25 @@ public class MarchantService {
 		this.marchantRepository = marchantRepository;
 		this.authRepository = authRepository;
 	}
-	
-	public Response marchantSignUp(Marchant marchant) {
+	*/
+	public Response marchantSignUp(Marchant marchant, MarchantRepository marchantRepository,
+    MarchantAuthRepository authRepository) {
 		Response response = new Response();
 		Marchant existingMarchant = marchantRepository.findByEmail(marchant.getEmail());
 		if (existingMarchant == null) {
 			Marchant createdMarchant = marchantRepository.save(marchant);
-			marchantAccessToken(marchant);
+			marchantAccessToken(marchant, authRepository);
 			response.setStatus("201");
-			response.setUserMessage("User Created with EmailId :: " + createdMarchant.getEmail());			
+			response.setUserMessage("Marchant Created with EmailId :: " + createdMarchant.getEmail());			
 		}else {
 			response.setStatus("500");
-			response.setUserMessage("User Already exists with EmailId :: " + existingMarchant.getEmail());
+			response.setUserMessage("Marchant Already exists with EmailId :: " + existingMarchant.getEmail());
 		}
 		return response;
 		
 	}
 	
-	private void marchantAccessToken(Marchant marchant) {
+	private void marchantAccessToken(Marchant marchant,  MarchantAuthRepository authRepository) {
 		String uniqueID = UUID.randomUUID().toString();
 		MarchantAuth auth = new  MarchantAuth();
 		auth.setuId(marchant.getId());

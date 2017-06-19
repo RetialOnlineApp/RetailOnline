@@ -23,11 +23,11 @@ public class MarchantController {
     MarchantAuthRepository authRepository;
 	
 	
-	MarchantService service =  new MarchantService(marchantRepository, authRepository);
+	MarchantService service =  new MarchantService();
 	
 	@PostMapping("/signup")
 	public Response addUser(@RequestBody Marchant marchant) {
-		return service.marchantSignUp(marchant);
+		return service.marchantSignUp(marchant,marchantRepository, authRepository);
 		}
 	
 	

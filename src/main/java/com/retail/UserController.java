@@ -23,11 +23,11 @@ public class UserController {
     UserAuthRepository userAuthRepository;
 	
 	
-	UserService service =  new UserService(userRepository, userAuthRepository);
+	UserService service =  new UserService();
 	
 	@PostMapping("/signup")
 	public Response addUser(@RequestBody User user) {
-		return service.userSignUp(user);
+		return service.userSignUp(user, userRepository, userAuthRepository);
 		}
 	
 	
