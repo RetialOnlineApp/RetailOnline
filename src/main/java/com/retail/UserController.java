@@ -1,6 +1,5 @@
 package com.retail;
 
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.retail.domains.Response;
 import com.retail.entities.User;
-import com.retail.entities.UserAuth;
 import com.retail.repositories.UserAuthRepository;
 import com.retail.repositories.UserRepository;
 import com.retail.services.UserService;

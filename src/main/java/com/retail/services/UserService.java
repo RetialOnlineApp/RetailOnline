@@ -2,7 +2,6 @@ package com.retail.services;
 
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.retail.domains.Response;
 import com.retail.entities.User;
