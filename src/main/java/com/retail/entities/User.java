@@ -1,4 +1,4 @@
-package com.retail.domains;
+package com.retail.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,13 +11,13 @@ import javax.persistence.Table;
 public class User {
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
+	private Integer id;
 	private String email;
 	private String password;
-	public long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getEmail() {

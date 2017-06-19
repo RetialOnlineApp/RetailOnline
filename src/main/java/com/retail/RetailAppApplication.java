@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableAutoConfiguration
-@EntityScan(basePackages = {"com.retail.domains"})
+@EntityScan(basePackages = {"com.retail.entities"})
 @EnableJpaRepositories(basePackages = {"com.retail.repositories"})
 @EnableTransactionManagement
 @SpringBootApplication

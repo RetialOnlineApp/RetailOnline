@@ -1,4 +1,4 @@
-package com.retail.domains;
+package com.retail.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
