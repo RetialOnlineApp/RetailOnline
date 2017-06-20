@@ -1,5 +1,7 @@
 package com.retail.services;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import com.retail.entities.User;
 import com.retail.entities.UserAuth;
 import com.retail.repositories.UserAuthRepository;
 import com.retail.repositories.UserRepository;
+import com.retail.util.SignUpMailer;
 
 @Service
 public class UserService {
@@ -41,15 +44,39 @@ public class UserService {
 		
 	}
 	
+	
+	public Response verifyUser(String random, UserAuthRepository authRepository) {
+		Response response = new Response();
+		UserAuth auth = authRepository.findByRandomId(random);
+		if (auth != null) {
+			auth.setVerified(true);
+			response.setUserMessage("Account verified.. Thanks for you time");
+			response.setStatus("200");
+		} else {
+			response.setStatus("401");
+			response.setUserMessage("Sorry ! Bad try..");
+		}
+		
+		return response;
+	}
+	
 	private void userAccessToken(User user ,  UserAuthRepository userAuthRepository) {
-		String uniqueID = UUID.randomUUID().toString();
+		String accessToken = UUID.randomUUID().toString();
+		String random = UUID.randomUUID().toString();
 		UserAuth auth = new  UserAuth();
 		auth.setuId(user.getId());
-		auth.setAccessToken(uniqueID);
+		auth.setAccessToken(accessToken);
+		auth.setRandomId(random);
+		auth.setVerified(false);
+		sendVerificationMail(user,random);
 		userAuthRepository.save(auth);
 		
-		
 	}
+	private void sendVerificationMail(User user,String random ) {
+		SignUpMailer mailer = new SignUpMailer(); 
+		boolean status = mailer.send(user.getEmail(), random);
+	}
+	
 	
 
 }

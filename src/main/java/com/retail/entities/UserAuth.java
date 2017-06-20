@@ -13,7 +13,22 @@ public class UserAuth {
     @GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private long uId;
-    public long getId() {
+	private String randomId;
+	private String accessToken;
+	private boolean isVerified;
+    public String getRandomId() {
+		return randomId;
+	}
+	public void setRandomId(String randomId) {
+		this.randomId = randomId;
+	}
+	public boolean isVerified() {
+		return isVerified;
+	}
+	public void setVerified(boolean isVerified) {
+		this.isVerified = isVerified;
+	}
+	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
@@ -31,7 +46,7 @@ public class UserAuth {
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
-	private String accessToken;
+	
     
 
 }

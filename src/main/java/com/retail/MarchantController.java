@@ -14,7 +14,7 @@ import com.retail.repositories.MarchantRepository;
 import com.retail.services.MarchantService;
 
 @RestController
-@RequestMapping("/marchant")
+@RequestMapping("/api/marchant")
 public class MarchantController {
 	
 	@Autowired
