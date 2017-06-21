@@ -18,9 +18,9 @@ public class SignUpMailer{
 	
 	
 	
-          public boolean send(String to, String ran){
+          public boolean send(String to, String verifyToken){
           boolean status;
-          String msg = "Please click on the below link to verify your account \n" +"http://localhost:8080/api/user/signup/verify?val="+ran;
+          String msg = "Please click on the below link to verify your account \n" +"http://localhost:8080/api/user/signup/verify?val="+verifyToken;
           //Get properties object    
           Properties props = new Properties();    
           props.put("mail.smtp.host", "smtp.gmail.com");    

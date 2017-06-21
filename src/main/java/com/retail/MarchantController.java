@@ -2,15 +2,16 @@ package com.retail;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.retail.domains.Response;
-import com.retail.entities.Marchant;
+import com.retail.entities.MarchantAuth;
 import com.retail.repositories.MarchantAuthRepository;
-import com.retail.repositories.MarchantRepository;
 import com.retail.services.MarchantService;
 
 @RestController
@@ -18,17 +19,20 @@ import com.retail.services.MarchantService;
 public class MarchantController {
 	
 	@Autowired
-	MarchantRepository marchantRepository;
-	@Autowired
-    MarchantAuthRepository authRepository;
+    MarchantAuthRepository marchantAuthRepository;
 	
 	
 	MarchantService service =  new MarchantService();
 	
 	@PostMapping("/signup")
-	public Response addUser(@RequestBody Marchant marchant) {
-		return service.marchantSignUp(marchant,marchantRepository, authRepository);
+	public Response addMarchant(@RequestBody MarchantAuth marchant) {
+		return service.marchantSignUp(marchant, marchantAuthRepository);
 		}
+	
+	@GetMapping("/signup/verify")
+	public Response verifyMarchant(@RequestParam String verifyToken) {
+		return service.verifyMarchant(verifyToken, marchantAuthRepository);		
+	}
 	
 	
 

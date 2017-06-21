@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.retail.domains.Response;
-import com.retail.entities.User;
+import com.retail.entities.UserAuth;
 import com.retail.repositories.UserAuthRepository;
-import com.retail.repositories.UserRepository;
 import com.retail.services.UserService;
 
 @RestController
@@ -20,21 +19,19 @@ import com.retail.services.UserService;
 public class UserController {
 	
 	@Autowired
-	UserRepository userRepository;
-	@Autowired
     UserAuthRepository userAuthRepository;
 	
 	
 	UserService service =  new UserService();
 	
 	@PostMapping("/signup")
-	public Response addUser(@RequestBody User user) {
-		return service.userSignUp(user, userRepository, userAuthRepository);
+	public Response addUser(@RequestBody UserAuth user) {
+		return service.userSignUp(user, userAuthRepository);
 		}
 	
 	@GetMapping("/signup/verify")
-	public Response verifyUser(@RequestParam String ran) {
-		return service.verifyUser(ran, userAuthRepository);		
+	public Response verifyUser(@RequestParam String verifyToken) {
+		return service.verifyUser(verifyToken, userAuthRepository);		
 	}
 	
 	

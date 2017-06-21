@@ -6,21 +6,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Email;
+
 @Entity
 @Table(name = "UserAuth")
 public class UserAuth {
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
-	private long uId;
-	private String randomId;
+	private Integer id;
+	@Email
+	private String email;
+	private String password;
+	private String verifyToken;
 	private String accessToken;
 	private boolean isVerified;
-    public String getRandomId() {
-		return randomId;
+	
+   
+	public String getVerifyToken() {
+		return verifyToken;
 	}
-	public void setRandomId(String randomId) {
-		this.randomId = randomId;
+	public void setVerifyToken(String verifyToken) {
+		this.verifyToken = verifyToken;
 	}
 	public boolean isVerified() {
 		return isVerified;
@@ -28,17 +34,23 @@ public class UserAuth {
 	public void setVerified(boolean isVerified) {
 		this.isVerified = isVerified;
 	}
-	public long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	public long getuId() {
-		return uId;
+	public String getEmail() {
+		return email;
 	}
-	public void setuId(long uId) {
-		this.uId = uId;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getAccessToken() {
 		return accessToken;

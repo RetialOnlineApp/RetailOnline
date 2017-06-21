@@ -6,24 +6,53 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Email;
+
 @Entity
 @Table(name = "marchantAuth")
 public class MarchantAuth {
+	
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
-	private long uId;
-    public long getId() {
+	private Integer id;
+	@Email
+	private String email;
+	private String password;
+	private String accessToken;
+	private String verifyToken;
+	private boolean isVerified;
+
+	
+	public String getVerifyToken() {
+		return verifyToken;
+	}
+	public void setVerifyToken(String verifyToken) {
+		this.verifyToken = verifyToken;
+	}
+	public boolean isVerified() {
+		return isVerified;
+	}
+	public void setVerified(boolean isVerified) {
+		this.isVerified = isVerified;
+	}
+	
+    public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public Integer getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
-	}
-	public long getuId() {
-		return uId;
-	}
-	public void setuId(long uId) {
-		this.uId = uId;
 	}
 	public String getAccessToken() {
 		return accessToken;
@@ -31,7 +60,7 @@ public class MarchantAuth {
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
-	private String accessToken;
+	
     
 
 }

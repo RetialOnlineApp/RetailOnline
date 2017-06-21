@@ -4,7 +4,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.retail.entities.UserAuth;
 
-public interface UserAuthRepository extends CrudRepository<UserAuth, Long> {
-	UserAuth findByRandomId(String randomId);
+public interface UserAuthRepository extends CrudRepository<UserAuth, Integer> {
+	UserAuth findByVerifyToken(String token);
+	UserAuth findByEmail(String email);
 
 }
