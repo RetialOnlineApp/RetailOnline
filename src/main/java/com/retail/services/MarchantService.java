@@ -60,10 +60,9 @@ public class MarchantService {
 	
 	private boolean sendVerificationMail(MarchantAuth marchant,String verifyToken ) {
 		SignUpMailer mailer = new SignUpMailer(); 
-		boolean status = mailer.send(marchant.getEmail(), verifyToken);
+		boolean status = mailer.sendMailToMarchant(marchant.getEmail(), verifyToken);
 		return status;
 	}
-	
 	
 
 }

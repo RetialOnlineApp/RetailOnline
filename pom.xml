@@ -33,16 +33,19 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-			<dependency>
+		<dependency>
     <groupId>javax.mail</groupId>
     <artifactId>javax.mail-api</artifactId>
     <version>1.5.5</version>
 </dependency>
+<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
 <dependency>
     <groupId>com.sun.mail</groupId>
     <artifactId>javax.mail</artifactId>
-    <version>1.5.5</version>
+    <version>1.5.1</version>
 </dependency>
+
+			
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

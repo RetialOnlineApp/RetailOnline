@@ -30,8 +30,8 @@ public class UserController {
 		}
 	
 	@GetMapping("/signup/verify")
-	public Response verifyUser(@RequestParam String verifyToken) {
-		return service.verifyUser(verifyToken, userAuthRepository);		
+	public Response verifyUser(@RequestParam String token) {
+		return service.verifyUser(token, userAuthRepository);		
 	}
 	
 	

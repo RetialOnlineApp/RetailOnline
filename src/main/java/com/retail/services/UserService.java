@@ -44,9 +44,10 @@ public class UserService {
 		Response response = new Response();
 		String accessToken = UUID.randomUUID().toString();
 		UserAuth auth = authRepository.findByVerifyToken(token);
-		if (auth != null) {
+		if (auth != null && auth.isVerified() != true) {
 			auth.setVerified(true);
 			auth.setAccessToken(accessToken);
+			authRepository.save(auth);
 			response.setUserMessage("Account verified.. Thanks for you time");
 			response.setStatus("200");
 		} else {
@@ -60,7 +61,7 @@ public class UserService {
 	
 	private boolean sendVerificationMail(UserAuth user,String verifyToken ) {
 		SignUpMailer mailer = new SignUpMailer(); 
-		boolean status = mailer.send(user.getEmail(), verifyToken);
+		boolean status = mailer.sendMailToUser(user.getEmail(), verifyToken);
 		return status;
 	}
 	
