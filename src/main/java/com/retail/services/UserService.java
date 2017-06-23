@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
 import com.retail.entities.UserAuth;
 import com.retail.repositories.UserAuthRepository;
@@ -55,6 +56,19 @@ public class UserService {
 			response.setUserMessage("Sorry ! Bad try..");
 		}
 		
+		return response;
+	}
+	
+	public AccessTokenResponse accessToken(UserAuth user, UserAuthRepository authRepository) {
+		AccessTokenResponse response = new AccessTokenResponse();
+		UserAuth auth = authRepository.findByEmailInAndPasswordIn(user.getEmail(), user.getPassword());
+		if (auth != null) {
+			response.setAccessToken(auth.getAccessToken());
+			response.setEmail(auth.getEmail());
+			response.setDeveloperMSG("user message");
+		} else {
+			response.setDeveloperMSG("User not found");
+		}
 		return response;
 	}
 	
