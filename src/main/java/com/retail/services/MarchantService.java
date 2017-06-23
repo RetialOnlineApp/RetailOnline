@@ -5,9 +5,12 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
 import com.retail.entities.MarchantAuth;
+import com.retail.entities.UserAuth;
 import com.retail.repositories.MarchantAuthRepository;
+import com.retail.repositories.UserAuthRepository;
 import com.retail.util.SignUpMailer;
 
 @Service
@@ -44,9 +47,10 @@ public class MarchantService {
 		Response response = new Response();
 		String accessToken = UUID.randomUUID().toString();
 		MarchantAuth auth = authRepository.findByVerifyToken(token);
-		if (auth != null) {
+		if (auth != null && auth.isVerified() != true) {
 			auth.setVerified(true);
 			auth.setAccessToken(accessToken);
+			authRepository.save(auth);
 			response.setUserMessage("Account verified.. Thanks for you time");
 			response.setStatus("200");
 		} else {
@@ -54,6 +58,19 @@ public class MarchantService {
 			response.setUserMessage("Sorry ! Bad try..");
 		}
 		
+		return response;
+	}
+	
+	public AccessTokenResponse accessToken(MarchantAuth user, MarchantAuthRepository authRepository) {
+		AccessTokenResponse response = new AccessTokenResponse();
+		MarchantAuth auth = authRepository.findByEmailInAndPasswordIn(user.getEmail(), user.getPassword());
+		if (auth != null) {
+			response.setAccessToken(auth.getAccessToken());
+			response.setEmail(auth.getEmail());
+			response.setDeveloperMSG("user message");
+		} else {
+			response.setDeveloperMSG("User not found");
+		}
 		return response;
 	}
 	

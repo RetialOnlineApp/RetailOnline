@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
 import com.retail.entities.MarchantAuth;
+import com.retail.entities.UserAuth;
 import com.retail.repositories.MarchantAuthRepository;
 import com.retail.services.MarchantService;
 
@@ -30,9 +32,13 @@ public class MarchantController {
 		}
 	
 	@GetMapping("/signup/verify")
-	public Response verifyMarchant(@RequestParam String verifyToken) {
-		return service.verifyMarchant(verifyToken, marchantAuthRepository);		
+	public Response verifyMarchant(@RequestParam String token) {
+		return service.verifyMarchant(token, marchantAuthRepository);		
 	}
+	@PostMapping("/accessToken")
+	public AccessTokenResponse accessToken(@RequestBody MarchantAuth marchant) {
+		return service.accessToken(marchant, marchantAuthRepository);
+		}
 	
 	
 
