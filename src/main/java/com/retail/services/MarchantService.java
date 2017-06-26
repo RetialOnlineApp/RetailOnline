@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
 import com.retail.entities.MarchantAuth;
-import com.retail.entities.UserAuth;
 import com.retail.repositories.MarchantAuthRepository;
-import com.retail.repositories.UserAuthRepository;
 import com.retail.util.SignUpMailer;
 
 @Service
