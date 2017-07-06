@@ -11,11 +11,9 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.springframework.beans.factory.annotation.Value;
 
 public class SignUpMailer {
-	@Value("${spring.mail.username}")
-	private String from;
+	private String from = "aditya24thakare@gmail.com";
 	private String password = "@3friends";
 	private String sub = "Retail verification";
 
