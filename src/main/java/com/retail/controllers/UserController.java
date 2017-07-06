@@ -4,6 +4,7 @@
 package com.retail.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,7 @@ public class UserController {
 
 	@Autowired
 	UserAuthRepository userAuthRepository;
-
+	
 	// This service contains all the logic for user registration , login
 	UserService service = new UserService();
 

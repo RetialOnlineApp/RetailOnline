@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = { "com.retail.repositories" })
 @EnableTransactionManagement
 @SpringBootApplication
+
 public class RetailAppApplication {
 
 	public static void main(String[] args) {
