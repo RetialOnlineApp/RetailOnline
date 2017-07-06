@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@EntityScan(basePackages = {"com.retail.entities"})
-@EnableJpaRepositories(basePackages = {"com.retail.repositories"})
+@EntityScan(basePackages = { "com.retail.entities" })
+@EnableJpaRepositories(basePackages = { "com.retail.repositories" })
 @EnableTransactionManagement
 @SpringBootApplication
 public class RetailAppApplication {

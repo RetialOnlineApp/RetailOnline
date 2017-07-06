@@ -1,6 +1,5 @@
 package com.retail.services;
 
-
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -13,7 +12,7 @@ import com.retail.util.SignUpMailer;
 
 @Service
 public class UserService {
-	
+
 	public Response userSignUp(UserAuth user, UserAuthRepository userAuthRepository) {
 		Response response = new Response();
 		String verifyToken = UUID.randomUUID().toString();
@@ -25,22 +24,21 @@ public class UserService {
 			boolean mailStatus = sendVerificationMail(user, verifyToken);
 			if (mailStatus) {
 				response.setStatus("201");
-				response.setUserMessage("User Created with EmailId :: " + createdUser.getEmail() + 
-						"  please check your mail for account activation link");	
-			}else {
+				response.setUserMessage("User Created with EmailId :: " + createdUser.getEmail()
+						+ "  please check your mail for account activation link");
+			} else {
 				response.setStatus("500");
-				response.setUserMessage("invalid email..! Please check your mail once");	
+				response.setUserMessage("invalid email..! Please check your mail once");
 			}
-					
-		}else {
+
+		} else {
 			response.setStatus("500");
 			response.setUserMessage("User Already exists with EmailId :: " + existingUser.getEmail());
 		}
 		return response;
-		
+
 	}
-	
-	
+
 	public Response verifyUser(String token, UserAuthRepository authRepository) {
 		Response response = new Response();
 		String accessToken = UUID.randomUUID().toString();
@@ -55,10 +53,10 @@ public class UserService {
 			response.setStatus("401");
 			response.setUserMessage("Sorry ! Bad try..");
 		}
-		
+
 		return response;
 	}
-	
+
 	public AccessTokenResponse accessToken(UserAuth user, UserAuthRepository authRepository) {
 		AccessTokenResponse response = new AccessTokenResponse();
 		UserAuth auth = authRepository.findByEmailInAndPasswordIn(user.getEmail(), user.getPassword());
@@ -71,14 +69,11 @@ public class UserService {
 		}
 		return response;
 	}
-	
-	
-	private boolean sendVerificationMail(UserAuth user,String verifyToken ) {
-		SignUpMailer mailer = new SignUpMailer(); 
+
+	private boolean sendVerificationMail(UserAuth user, String verifyToken) {
+		SignUpMailer mailer = new SignUpMailer();
 		boolean status = mailer.sendMailToUser(user.getEmail(), verifyToken);
 		return status;
 	}
-	
-	
 
 }
