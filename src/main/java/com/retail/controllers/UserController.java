@@ -4,7 +4,6 @@
 package com.retail.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,11 +26,16 @@ public class UserController {
 	 * spring boot will do it for us
 	 */
 
-	@Autowired
 	UserAuthRepository userAuthRepository;
 	
+	@Autowired
+	public UserController(UserAuthRepository userAuthRepository, UserService service) {
+		this.userAuthRepository = userAuthRepository;
+		this.service = service;
+	}
+	
 	// This service contains all the logic for user registration , login
-	UserService service = new UserService();
+	UserService service ;
 
 	// Function will accept user object in JSON format and will store it in
 	// database

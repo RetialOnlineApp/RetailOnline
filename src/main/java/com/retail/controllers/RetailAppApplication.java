@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EntityScan(basePackages = { "com.retail.entities" })
 @EnableJpaRepositories(basePackages = { "com.retail.repositories" })
-@EnableTransactionManagement
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.retail"})
 
 public class RetailAppApplication {
 

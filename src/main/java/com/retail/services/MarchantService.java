@@ -2,16 +2,20 @@ package com.retail.services;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
 import com.retail.entities.MarchantAuth;
 import com.retail.repositories.MarchantAuthRepository;
-import com.retail.util.SignUpMailer;
+import com.retail.util.EmailService;
 
 @Service
 public class MarchantService {
+	
+	@Autowired
+	EmailService emailService;
 
 	public Response marchantSignUp(MarchantAuth marchant, MarchantAuthRepository marchantAuthRepository) {
 		Response response = new Response();
@@ -71,8 +75,7 @@ public class MarchantService {
 	}
 
 	private boolean sendVerificationMail(MarchantAuth marchant, String verifyToken) {
-		SignUpMailer mailer = new SignUpMailer();
-		boolean status = mailer.sendMailToMarchant(marchant.getEmail(), verifyToken);
+		boolean status = emailService.sendMailToMarchant(marchant.getEmail(), verifyToken);
 		return status;
 	}
 

@@ -26,11 +26,14 @@ public class MarchantController {
 	 * spring boot will do it for us
 	 */
 
-	@Autowired
 	MarchantAuthRepository marchantAuthRepository;
+	MarchantService service;
 
-	// This service contains all the logic for user registration , login
-	MarchantService service = new MarchantService();
+	@Autowired
+	public MarchantController(MarchantAuthRepository marchantAuthRepository, MarchantService service) {
+		this.marchantAuthRepository = marchantAuthRepository;
+		this.service = service;
+	}
 
 	// Function will accept user object in JSON format and will store it in
 	// database
