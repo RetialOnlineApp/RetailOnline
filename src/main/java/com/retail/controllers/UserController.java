@@ -4,6 +4,8 @@
 package com.retail.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,20 +42,24 @@ public class UserController {
 	// Function will accept user object in JSON format and will store it in
 	// database
 	@PostMapping("/signup")
-	public Response addUser(@RequestBody UserAuth user) {
-		return service.userSignUp(user, userAuthRepository);
+	public ResponseEntity<Response> addUser(@RequestBody UserAuth user) {
+		Response response = service.userSignUp(user, userAuthRepository);
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 	// to verify user with email verification
 	@GetMapping("/signup/verify")
-	public Response verifyUser(@RequestParam String token) {
-		return service.verifyUser(token, userAuthRepository);
+	public ResponseEntity<Response> verifyUser(@RequestParam String token) {
+		Response response = service.verifyUser(token, userAuthRepository);
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+
 	}
 
 	// returns accessToken for user to validate other API'S
 	@PostMapping("/accessToken")
-	public AccessTokenResponse accessToken(@RequestBody UserAuth user) {
-		return service.accessToken(user, userAuthRepository);
+	public ResponseEntity<AccessTokenResponse> accessToken(@RequestBody UserAuth user) {
+		AccessTokenResponse response = service.accessToken(user, userAuthRepository);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 }

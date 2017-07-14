@@ -64,7 +64,7 @@ public class UserService {
 	public AccessTokenResponse accessToken(UserAuth user, UserAuthRepository authRepository) {
 		AccessTokenResponse response = new AccessTokenResponse();
 		UserAuth auth = authRepository.findByEmailInAndPasswordIn(user.getEmail(), user.getPassword());
-		if (auth != null) {
+		if (auth != null && auth.isVerified()) {
 			response.setAccessToken(auth.getAccessToken());
 			response.setEmail(auth.getEmail());
 			response.setDeveloperMSG("user message");
