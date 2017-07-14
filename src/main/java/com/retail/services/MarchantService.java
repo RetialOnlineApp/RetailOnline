@@ -7,28 +7,28 @@ import org.springframework.stereotype.Service;
 
 import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
-import com.retail.entities.UserAuth;
-import com.retail.repositories.UserAuthRepository;
+import com.retail.entities.MarchantAuth;
+import com.retail.repositories.MarchantAuthRepository;
 import com.retail.util.EmailService;
 
 @Service
-public class UserService {
+public class MarchantService {
 	
 	@Autowired
 	EmailService emailService;
 
-	public Response userSignUp(UserAuth user, UserAuthRepository userAuthRepository) {
+	public Response marchantSignUp(MarchantAuth marchant, MarchantAuthRepository marchantAuthRepository) {
 		Response response = new Response();
 		String verifyToken = UUID.randomUUID().toString();
-		UserAuth existingUser = userAuthRepository.findByEmail(user.getEmail());
-		if (existingUser == null) {
-			user.setVerified(false);
-			user.setVerifyToken(verifyToken);
-			UserAuth createdUser = userAuthRepository.save(user);
-			boolean mailStatus = sendVerificationMail(user, verifyToken);
+		MarchantAuth existingMarchant = marchantAuthRepository.findByEmail(marchant.getEmail());
+		if (existingMarchant == null) {
+			marchant.setVerified(false);
+			marchant.setVerifyToken(verifyToken);
+			MarchantAuth createdMarchant = marchantAuthRepository.save(marchant);
+			boolean mailStatus = sendVerificationMail(marchant, verifyToken);
 			if (mailStatus) {
 				response.setStatus("201");
-				response.setUserMessage("User Created with EmailId :: " + createdUser.getEmail()
+				response.setUserMessage("Marchant Created with EmailId :: " + createdMarchant.getEmail()
 						+ "  please check your mail for account activation link");
 			} else {
 				response.setStatus("500");
@@ -37,16 +37,16 @@ public class UserService {
 
 		} else {
 			response.setStatus("500");
-			response.setUserMessage("User Already exists with EmailId :: " + existingUser.getEmail());
+			response.setUserMessage("Marchant Already exists with EmailId :: " + existingMarchant.getEmail());
 		}
 		return response;
 
 	}
 
-	public Response verifyUser(String token, UserAuthRepository authRepository) {
+	public Response verifyMarchant(String token, MarchantAuthRepository authRepository) {
 		Response response = new Response();
 		String accessToken = UUID.randomUUID().toString();
-		UserAuth auth = authRepository.findByVerifyToken(token);
+		MarchantAuth auth = authRepository.findByVerifyToken(token);
 		if (auth != null && auth.isVerified() != true) {
 			auth.setVerified(true);
 			auth.setAccessToken(accessToken);
@@ -61,10 +61,10 @@ public class UserService {
 		return response;
 	}
 
-	public AccessTokenResponse accessToken(UserAuth user, UserAuthRepository authRepository) {
+	public AccessTokenResponse accessToken(MarchantAuth user, MarchantAuthRepository authRepository) {
 		AccessTokenResponse response = new AccessTokenResponse();
-		UserAuth auth = authRepository.findByEmailInAndPasswordIn(user.getEmail(), user.getPassword());
-		if (auth != null && auth.isVerified()) {
+		MarchantAuth auth = authRepository.findByEmailInAndPasswordIn(user.getEmail(), user.getPassword());
+		if (auth != null) {
 			response.setAccessToken(auth.getAccessToken());
 			response.setEmail(auth.getEmail());
 			response.setDeveloperMSG("user message");
@@ -74,8 +74,8 @@ public class UserService {
 		return response;
 	}
 
-	private boolean sendVerificationMail(UserAuth user, String verifyToken) {
-		boolean status = emailService.sendMailToUser(user.getEmail(), verifyToken);
+	private boolean sendVerificationMail(MarchantAuth marchant, String verifyToken) {
+		boolean status = emailService.sendMailToMarchant(marchant.getEmail(), verifyToken);
 		return status;
 	}
 
