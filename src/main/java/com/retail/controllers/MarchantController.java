@@ -21,7 +21,7 @@ import com.retail.services.MarchantService;
 
 @RestController
 @RequestMapping("/api/marchant")
-public class Mar chantController {
+public class MarchantController {
 
 	/*
 	 * Auto wiring dependency here , so no need to create and initialize object
