@@ -15,8 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
+import com.retail.entities.MarchantProfile;
 import com.retail.entities.UserAuth;
+<<<<<<< HEAD
 import com.retail.entities.UserProfile;
+=======
+import com.retail.repositories.MarchantProfileRepository;
+>>>>>>> df0e044d9b0ed58f42e059bebe34dd1d51a9787d
 import com.retail.repositories.UserAuthRepository;
 import com.retail.services.UserService;
 
@@ -30,11 +35,17 @@ public class UserController {
 	 */
 
 	UserAuthRepository userAuthRepository;
+<<<<<<< HEAD
 
+=======
+	MarchantProfileRepository marchantProfileRepository;
+	
+>>>>>>> df0e044d9b0ed58f42e059bebe34dd1d51a9787d
 	@Autowired
-	public UserController(UserAuthRepository userAuthRepository, UserService service) {
+	public UserController(UserAuthRepository userAuthRepository, UserService service, MarchantProfileRepository marchantProfileRepository) {
 		this.userAuthRepository = userAuthRepository;
 		this.service = service;
+		this.marchantProfileRepository = marchantProfileRepository;
 	}
 
 	// This service contains allsss the logic for user registration , login
@@ -61,6 +72,12 @@ public class UserController {
 	public ResponseEntity<AccessTokenResponse> accessToken(@RequestBody UserAuth user) {
 		AccessTokenResponse response = service.accessToken(user, userAuthRepository);
 		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@PostMapping("/demo")
+	public ResponseEntity<String> accessToken(@RequestBody MarchantProfile profile) {
+		marchantProfileRepository.save(profile);
+		return new ResponseEntity<>("done", HttpStatus.OK);
 	}
 
 	/*@GetMapping("/logout")
