@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
 import com.retail.entities.UserAuth;
+import com.retail.entities.UserProfile;
 import com.retail.repositories.UserAuthRepository;
 import com.retail.services.UserService;
 
@@ -29,22 +30,22 @@ public class UserController {
 	 */
 
 	UserAuthRepository userAuthRepository;
-	
+
 	@Autowired
 	public UserController(UserAuthRepository userAuthRepository, UserService service) {
 		this.userAuthRepository = userAuthRepository;
 		this.service = service;
 	}
-	
-	// This service contains all the logic for user registration , login
-	UserService service ;
+
+	// This service contains allsss the logic for user registration , login
+	UserService service;
 
 	// Function will accept user object in JSON format and will store it in
 	// database
 	@PostMapping("/signup")
 	public ResponseEntity<Response> addUser(@RequestBody UserAuth user) {
 		Response response = service.userSignUp(user, userAuthRepository);
-		return new ResponseEntity<Response>(response, HttpStatus.OK);
+		return new ResponseEntity<Response>(response, HttpStatus.CREATED);
 	}
 
 	// to verify user with email verification
@@ -60,6 +61,20 @@ public class UserController {
 	public ResponseEntity<AccessTokenResponse> accessToken(@RequestBody UserAuth user) {
 		AccessTokenResponse response = service.accessToken(user, userAuthRepository);
 		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	/*@GetMapping("/logout")
+	public ResponseEntity<Response> logout() {
+		String accessToken = "";
+		Response response = service.logout(accessToken, userAuthRepository);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}*/
+	
+	// This function will accept UserProfile details in JSON and store it into the DataBase
+	@PostMapping("/profile")
+	public ResponseEntity<UserProfile> createProfile(@RequestBody UserProfile profile) {
+		profile = service.userDetails(profile);
+		return new ResponseEntity<>(profile, HttpStatus.CREATED);
 	}
 
 }
