@@ -31,13 +31,13 @@ public class UserController {
 	 */
 
 	UserAuthRepository userAuthRepository;
-	MarchantProfileRepository marchantProfileRepository;
+	//MarchantProfileRepository marchantProfileRepository;
 	
 	@Autowired
 	public UserController(UserAuthRepository userAuthRepository, UserService service, MarchantProfileRepository marchantProfileRepository) {
 		this.userAuthRepository = userAuthRepository;
 		this.service = service;
-		this.marchantProfileRepository = marchantProfileRepository;
+		//this.marchantProfileRepository = marchantProfileRepository;
 	}
 	
 	// This service contains all the logic for user registration , login
@@ -66,10 +66,6 @@ public class UserController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	@PostMapping("/demo")
-	public ResponseEntity<String> accessToken(@RequestBody MarchantProfile profile) {
-		marchantProfileRepository.save(profile);
-		return new ResponseEntity<>("done", HttpStatus.OK);
-	}
+	
 
 }

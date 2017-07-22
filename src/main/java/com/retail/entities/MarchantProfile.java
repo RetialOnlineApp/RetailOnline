@@ -50,9 +50,5 @@ public class MarchantProfile {
 	public void setMobileNumber(String mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
-	 
-
-	
-
 	
 }

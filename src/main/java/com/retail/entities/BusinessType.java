@@ -13,19 +13,20 @@ import javax.persistence.OneToMany;
 public class BusinessType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String id;
+	private Integer id;
 	private String type;
     @OneToMany(cascade = CascadeType.ALL)
 	private List<Product> products;
 	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
+	
 	public String getType() {
 		return type;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public void setType(String type) {
 		this.type = type;

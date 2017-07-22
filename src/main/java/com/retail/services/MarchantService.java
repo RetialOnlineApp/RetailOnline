@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.retail.domains.AccessTokenResponse;
+import com.retail.domains.MarchantprofileResponse;
 import com.retail.domains.Response;
 import com.retail.entities.MarchantAuth;
+import com.retail.entities.MarchantProfile;
 import com.retail.repositories.MarchantAuthRepository;
+import com.retail.repositories.MarchantProfileRepository;
 import com.retail.util.EmailService;
 
 @Service
@@ -16,6 +19,9 @@ public class MarchantService {
 	
 	@Autowired
 	EmailService emailService;
+	
+	@Autowired
+	MarchantProfileRepository marchantProfileRepository;
 
 	public Response marchantSignUp(MarchantAuth marchant, MarchantAuthRepository marchantAuthRepository) {
 		Response response = new Response();
@@ -77,6 +83,12 @@ public class MarchantService {
 	private boolean sendVerificationMail(MarchantAuth marchant, String verifyToken) {
 		boolean status = emailService.sendMailToMarchant(marchant.getEmail(), verifyToken);
 		return status;
+	}
+	
+	public MarchantProfile marchantdetails(MarchantProfile marchantProfile, MarchantProfileRepository marchantProfileRepository){
+		//MarchantprofileResponse response = new MarchantprofileResponse();
+		marchantProfile = marchantProfileRepository.save(marchantProfile);
+		return marchantProfile;
 	}
 
 }

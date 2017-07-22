@@ -19,8 +19,8 @@ public class VendorProfile {
 	
 	private String shopName;
 	
-	/*@OneToOne(optional = false,cascade = CascadeType.ALL)
-	private BusinessType businessType;*/
+	@OneToOne(optional = false,cascade = CascadeType.ALL)
+	private BusinessType businessType;
 	
 	public Integer getId() {
 		return id;
@@ -46,13 +46,13 @@ public class VendorProfile {
 		this.shopName = shopName;
 	}
 
-	/*public BusinessType getBusinessType() {
+	public BusinessType getBusinessType() {
 		return businessType;
 	}
 
 	public void setBusinessType(BusinessType businessType) {
 		this.businessType = businessType;
-	}*/
+	}
 
 	
     
