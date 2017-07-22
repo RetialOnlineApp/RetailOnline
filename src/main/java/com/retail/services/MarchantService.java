@@ -1,12 +1,10 @@
 package com.retail.services;
 
-import java.util.UUID;
 
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.retail.domains.AccessTokenResponse;
-import com.retail.domains.MarchantprofileResponse;
 import com.retail.domains.Response;
 import com.retail.entities.MarchantAuth;
 import com.retail.entities.MarchantProfile;
@@ -18,19 +16,22 @@ import com.retail.util.EmailService;
 public class MarchantService {
 	
 	@Autowired
-	EmailService emailService;
+	private EmailService emailService;
 	
 	@Autowired
-	MarchantProfileRepository marchantProfileRepository;
-
-	public Response marchantSignUp(MarchantAuth marchant, MarchantAuthRepository marchantAuthRepository) {
+	private MarchantProfileRepository marchantProfileRepository;
+	
+	@Autowired
+	private MarchantAuthRepository authRepository;
+	
+	public Response marchantSignUp(MarchantAuth marchant) {
 		Response response = new Response();
 		String verifyToken = UUID.randomUUID().toString();
-		MarchantAuth existingMarchant = marchantAuthRepository.findByEmail(marchant.getEmail());
+		MarchantAuth existingMarchant = authRepository.findByEmail(marchant.getEmail());
 		if (existingMarchant == null) {
 			marchant.setVerified(false);
 			marchant.setVerifyToken(verifyToken);
-			MarchantAuth createdMarchant = marchantAuthRepository.save(marchant);
+			MarchantAuth createdMarchant = authRepository.save(marchant);
 			boolean mailStatus = sendVerificationMail(marchant, verifyToken);
 			if (mailStatus) {
 				response.setStatus("201");
@@ -49,7 +50,7 @@ public class MarchantService {
 
 	}
 
-	public Response verifyMarchant(String token, MarchantAuthRepository authRepository) {
+	public Response verifyMarchant(String token) {
 		Response response = new Response();
 		String accessToken = UUID.randomUUID().toString();
 		MarchantAuth auth = authRepository.findByVerifyToken(token);
@@ -67,7 +68,7 @@ public class MarchantService {
 		return response;
 	}
 
-	public AccessTokenResponse accessToken(MarchantAuth user, MarchantAuthRepository authRepository) {
+	public AccessTokenResponse accessToken(MarchantAuth user) {
 		AccessTokenResponse response = new AccessTokenResponse();
 		MarchantAuth auth = authRepository.findByEmailInAndPasswordIn(user.getEmail(), user.getPassword());
 		if (auth != null) {
@@ -85,10 +86,13 @@ public class MarchantService {
 		return status;
 	}
 	
-	public MarchantProfile marchantdetails(MarchantProfile marchantProfile, MarchantProfileRepository marchantProfileRepository){
-		//MarchantprofileResponse response = new MarchantprofileResponse();
-		marchantProfile = marchantProfileRepository.save(marchantProfile);
-		return marchantProfile;
+	public MarchantProfile saveProfile(MarchantProfile marchantProfile){
+	    MarchantProfile profile = marchantProfileRepository.save(marchantProfile);
+	    if (profile != null) {
+	    	return profile;
+	    }else {
+			return profile;
+		}
 	}
 
 }
