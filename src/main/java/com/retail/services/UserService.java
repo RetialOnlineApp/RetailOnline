@@ -8,14 +8,19 @@ import org.springframework.stereotype.Service;
 import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
 import com.retail.entities.UserAuth;
+import com.retail.entities.UserProfile;
 import com.retail.repositories.UserAuthRepository;
+import com.retail.repositories.UserProfileRepository;
 import com.retail.util.EmailService;
 
 @Service
 public class UserService {
-	
+ 
 	@Autowired
 	EmailService emailService;
+
+	@Autowired
+	UserProfileRepository profileRepo ;
 
 	public Response userSignUp(UserAuth user, UserAuthRepository userAuthRepository) {
 		Response response = new Response();
@@ -74,9 +79,23 @@ public class UserService {
 		return response;
 	}
 
+	public Response logout(String accessToken, UserAuthRepository authRepository) {
+		String newAccessToken = UUID.randomUUID().toString();
+		UserAuth user = authRepository.findByAccessToken(newAccessToken);
+		if (user != null) {
+			System.out.println("done===========");
+		}
+		return null;
+
+	}
+
 	private boolean sendVerificationMail(UserAuth user, String verifyToken) {
 		boolean status = emailService.sendMailToUser(user.getEmail(), verifyToken);
 		return status;
+	}
+
+	public UserProfile userDetails(UserProfile profile) {
+		return profileRepo.save(profile);
 	}
 
 }
