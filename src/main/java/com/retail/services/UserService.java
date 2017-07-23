@@ -1,19 +1,27 @@
 package com.retail.services;
 
-
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
 import com.retail.entities.UserAuth;
+import com.retail.entities.UserProfile;
 import com.retail.repositories.UserAuthRepository;
-import com.retail.util.SignUpMailer;
+import com.retail.repositories.UserProfileRepository;
+import com.retail.util.EmailService;
 
 @Service
 public class UserService {
-	
+ 
+	@Autowired
+	EmailService emailService;
+
+	@Autowired
+	UserProfileRepository profileRepo ;
+
 	public Response userSignUp(UserAuth user, UserAuthRepository userAuthRepository) {
 		Response response = new Response();
 		String verifyToken = UUID.randomUUID().toString();
@@ -25,22 +33,21 @@ public class UserService {
 			boolean mailStatus = sendVerificationMail(user, verifyToken);
 			if (mailStatus) {
 				response.setStatus("201");
-				response.setUserMessage("User Created with EmailId :: " + createdUser.getEmail() + 
-						"  please check your mail for account activation link");	
-			}else {
+				response.setUserMessage("User Created with EmailId :: " + createdUser.getEmail()
+						+ "  please check your mail for account activation link");
+			} else {
 				response.setStatus("500");
-				response.setUserMessage("invalid email..! Please check your mail once");	
+				response.setUserMessage("invalid email..! Please check your mail once");
 			}
-					
-		}else {
+
+		} else {
 			response.setStatus("500");
 			response.setUserMessage("User Already exists with EmailId :: " + existingUser.getEmail());
 		}
 		return response;
-		
+
 	}
-	
-	
+
 	public Response verifyUser(String token, UserAuthRepository authRepository) {
 		Response response = new Response();
 		String accessToken = UUID.randomUUID().toString();
@@ -55,14 +62,14 @@ public class UserService {
 			response.setStatus("401");
 			response.setUserMessage("Sorry ! Bad try..");
 		}
-		
+
 		return response;
 	}
-	
+
 	public AccessTokenResponse accessToken(UserAuth user, UserAuthRepository authRepository) {
 		AccessTokenResponse response = new AccessTokenResponse();
 		UserAuth auth = authRepository.findByEmailInAndPasswordIn(user.getEmail(), user.getPassword());
-		if (auth != null) {
+		if (auth != null && auth.isVerified()) {
 			response.setAccessToken(auth.getAccessToken());
 			response.setEmail(auth.getEmail());
 			response.setDeveloperMSG("user message");
@@ -71,14 +78,24 @@ public class UserService {
 		}
 		return response;
 	}
-	
-	
-	private boolean sendVerificationMail(UserAuth user,String verifyToken ) {
-		SignUpMailer mailer = new SignUpMailer(); 
-		boolean status = mailer.sendMailToUser(user.getEmail(), verifyToken);
+
+	public Response logout(String accessToken, UserAuthRepository authRepository) {
+		String newAccessToken = UUID.randomUUID().toString();
+		UserAuth user = authRepository.findByAccessToken(newAccessToken);
+		if (user != null) {
+			System.out.println("done===========");
+		}
+		return null;
+
+	}
+
+	private boolean sendVerificationMail(UserAuth user, String verifyToken) {
+		boolean status = emailService.sendMailToUser(user.getEmail(), verifyToken);
 		return status;
 	}
-	
-	
+
+	public UserProfile userDetails(UserProfile profile) {
+		return profileRepo.save(profile);
+	}
 
 }

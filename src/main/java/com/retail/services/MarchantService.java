@@ -1,19 +1,22 @@
 package com.retail.services;
 
-
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
 import com.retail.entities.MarchantAuth;
 import com.retail.repositories.MarchantAuthRepository;
-import com.retail.util.SignUpMailer;
+import com.retail.util.EmailService;
 
 @Service
 public class MarchantService {
 	
+	@Autowired
+	EmailService emailService;
+
 	public Response marchantSignUp(MarchantAuth marchant, MarchantAuthRepository marchantAuthRepository) {
 		Response response = new Response();
 		String verifyToken = UUID.randomUUID().toString();
@@ -25,22 +28,21 @@ public class MarchantService {
 			boolean mailStatus = sendVerificationMail(marchant, verifyToken);
 			if (mailStatus) {
 				response.setStatus("201");
-				response.setUserMessage("Marchant Created with EmailId :: " + createdMarchant.getEmail() + 
-						"  please check your mail for account activation link");	
-			}else {
+				response.setUserMessage("Marchant Created with EmailId :: " + createdMarchant.getEmail()
+						+ "  please check your mail for account activation link");
+			} else {
 				response.setStatus("500");
-				response.setUserMessage("invalid email..! Please check your mail once");	
+				response.setUserMessage("invalid email..! Please check your mail once");
 			}
-					
-		}else {
+
+		} else {
 			response.setStatus("500");
 			response.setUserMessage("Marchant Already exists with EmailId :: " + existingMarchant.getEmail());
 		}
 		return response;
-		
+
 	}
-	
-	
+
 	public Response verifyMarchant(String token, MarchantAuthRepository authRepository) {
 		Response response = new Response();
 		String accessToken = UUID.randomUUID().toString();
@@ -55,10 +57,10 @@ public class MarchantService {
 			response.setStatus("401");
 			response.setUserMessage("Sorry ! Bad try..");
 		}
-		
+
 		return response;
 	}
-	
+
 	public AccessTokenResponse accessToken(MarchantAuth user, MarchantAuthRepository authRepository) {
 		AccessTokenResponse response = new AccessTokenResponse();
 		MarchantAuth auth = authRepository.findByEmailInAndPasswordIn(user.getEmail(), user.getPassword());
@@ -71,13 +73,10 @@ public class MarchantService {
 		}
 		return response;
 	}
-	
-	
-	private boolean sendVerificationMail(MarchantAuth marchant,String verifyToken ) {
-		SignUpMailer mailer = new SignUpMailer(); 
-		boolean status = mailer.sendMailToMarchant(marchant.getEmail(), verifyToken);
+
+	private boolean sendVerificationMail(MarchantAuth marchant, String verifyToken) {
+		boolean status = emailService.sendMailToMarchant(marchant.getEmail(), verifyToken);
 		return status;
 	}
-	
 
 }
