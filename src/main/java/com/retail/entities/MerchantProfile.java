@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class MarchantProfile {
+public class MerchantProfile {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

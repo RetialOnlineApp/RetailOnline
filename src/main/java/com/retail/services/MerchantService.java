@@ -6,32 +6,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
-import com.retail.entities.MarchantAuth;
-import com.retail.entities.MarchantProfile;
-import com.retail.repositories.MarchantAuthRepository;
-import com.retail.repositories.MarchantProfileRepository;
+import com.retail.entities.MerchantAuth;
+import com.retail.entities.MerchantProfile;
+import com.retail.repositories.MerchantAuthRepository;
 import com.retail.util.EmailService;
 
 @Service
-public class MarchantService {
+public class MerchantService {
 	
 	@Autowired
 	private EmailService emailService;
 	
 	@Autowired
-	private MarchantProfileRepository marchantProfileRepository;
+	private MerchantAuthRepository authRepository;
 	
-	@Autowired
-	private MarchantAuthRepository authRepository;
-	
-	public Response marchantSignUp(MarchantAuth marchant) {
+	public Response merchantSignUp(MerchantAuth marchant) {
 		Response response = new Response();
 		String verifyToken = UUID.randomUUID().toString();
-		MarchantAuth existingMarchant = authRepository.findByEmail(marchant.getEmail());
+		MerchantAuth existingMarchant = authRepository.findByEmail(marchant.getEmail());
 		if (existingMarchant == null) {
 			marchant.setVerified(false);
 			marchant.setVerifyToken(verifyToken);
-			MarchantAuth createdMarchant = authRepository.save(marchant);
+			MerchantAuth createdMarchant = authRepository.save(marchant);
 			boolean mailStatus = sendVerificationMail(marchant, verifyToken);
 			if (mailStatus) {
 				response.setStatus("201");
@@ -50,10 +46,10 @@ public class MarchantService {
 
 	}
 
-	public Response verifyMarchant(String token) {
+	public Response verifyMerchant(String token) {
 		Response response = new Response();
 		String accessToken = UUID.randomUUID().toString();
-		MarchantAuth auth = authRepository.findByVerifyToken(token);
+		MerchantAuth auth = authRepository.findByVerifyToken(token);
 		if (auth != null && auth.isVerified() != true) {
 			auth.setVerified(true);
 			auth.setAccessToken(accessToken);
@@ -68,9 +64,9 @@ public class MarchantService {
 		return response;
 	}
 
-	public AccessTokenResponse accessToken(MarchantAuth user) {
+	public AccessTokenResponse accessToken(MerchantAuth merchant) {
 		AccessTokenResponse response = new AccessTokenResponse();
-		MarchantAuth auth = authRepository.findByEmailInAndPasswordIn(user.getEmail(), user.getPassword());
+		MerchantAuth auth = authRepository.findByEmailInAndPasswordIn(merchant.getEmail(), merchant.getPassword());
 		if (auth != null) {
 			response.setAccessToken(auth.getAccessToken());
 			response.setEmail(auth.getEmail());
@@ -81,17 +77,19 @@ public class MarchantService {
 		return response;
 	}
 
-	private boolean sendVerificationMail(MarchantAuth marchant, String verifyToken) {
-		boolean status = emailService.sendMailToMarchant(marchant.getEmail(), verifyToken);
+	private boolean sendVerificationMail(MerchantAuth merchant, String verifyToken) {
+		boolean status = emailService.sendMailToMarchant(merchant.getEmail(), verifyToken);
 		return status;
 	}
 	
-	public MarchantProfile saveProfile(MarchantProfile marchantProfile){
-	    MarchantProfile profile = marchantProfileRepository.save(marchantProfile);
-	    if (profile != null) {
-	    	return profile;
-	    }else {
-			return profile;
+	public MerchantProfile saveProfile(MerchantProfile profile, String accessToken){
+		MerchantAuth auth = authRepository.findByAccessToken(accessToken);
+		if (auth != null) {
+			auth.setProfile(profile);
+			MerchantAuth savedProfile = authRepository.save(auth);
+			return savedProfile.getProfile();
+		}else {
+			return  null;
 		}
 	}
 

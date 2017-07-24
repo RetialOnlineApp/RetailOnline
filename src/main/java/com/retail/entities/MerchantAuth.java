@@ -1,16 +1,18 @@
 package com.retail.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
 
 @Entity
 @Table(name = "marchantAuth")
-public class MarchantAuth {
+public class MerchantAuth {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,6 +23,9 @@ public class MarchantAuth {
 	private String accessToken;
 	private String verifyToken;
 	private boolean isVerified;
+	
+	@OneToOne(optional = true,cascade = CascadeType.ALL)
+	private MerchantProfile profile;
 
 	public String getVerifyToken() {
 		return verifyToken;
@@ -36,6 +41,14 @@ public class MarchantAuth {
 
 	public void setVerified(boolean isVerified) {
 		this.isVerified = isVerified;
+	}
+
+	public MerchantProfile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(MerchantProfile profile) {
+		this.profile = profile;
 	}
 
 	public String getEmail() {

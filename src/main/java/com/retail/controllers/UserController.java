@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
-import com.retail.entities.MarchantProfile;
+import com.retail.entities.MerchantProfile;
 import com.retail.entities.UserAuth;
-import com.retail.repositories.MarchantProfileRepository;
 import com.retail.repositories.UserAuthRepository;
 import com.retail.services.UserService;
 
@@ -33,12 +32,7 @@ public class UserController {
 	UserAuthRepository userAuthRepository;
 	//MarchantProfileRepository marchantProfileRepository;
 	
-	@Autowired
-	public UserController(UserAuthRepository userAuthRepository, UserService service, MarchantProfileRepository marchantProfileRepository) {
-		this.userAuthRepository = userAuthRepository;
-		this.service = service;
-		//this.marchantProfileRepository = marchantProfileRepository;
-	}
+
 	
 	// This service contains all the logic for user registration , login
 	UserService service ;
