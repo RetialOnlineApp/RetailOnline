@@ -1,6 +1,3 @@
-/*This controller contains API for user registration , login and logout 
-*/
-
 package com.retail.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
-import com.retail.entities.MerchantProfile;
 import com.retail.entities.UserAuth;
-import com.retail.entities.UserProfile;
-import com.retail.repositories.MerchantProfileRepository;
-import com.retail.repositories.UserAuthRepository;
 import com.retail.services.UserService;
 
 @RestController
@@ -28,8 +21,6 @@ public class UserController {
 
 	@Autowired
 	UserService service ;
-
-	MerchantProfileRepository merchantProfileRepository;
 	
 	
 	@PostMapping("/signup")

@@ -84,8 +84,6 @@ public class UserService {
 		return response;
 	}
 
-
-
 	private boolean sendVerificationMail(UserAuth user, String verifyToken) {
 		boolean status = emailService.sendMailToUser(user.getEmail(), verifyToken);
 		return status;
