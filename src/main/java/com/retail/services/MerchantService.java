@@ -1,6 +1,7 @@
 package com.retail.services;
 
 
+
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.retail.domains.Response;
 import com.retail.entities.MerchantAuth;
 import com.retail.entities.MerchantProfile;
 import com.retail.repositories.MerchantAuthRepository;
+import com.retail.repositories.MerchantProfileRepository;
 import com.retail.util.EmailService;
 
 @Service
@@ -19,6 +21,9 @@ public class MerchantService {
 	
 	@Autowired
 	private MerchantAuthRepository authRepository;
+	
+	@Autowired
+	private MerchantProfileRepository merchantProfileRepository;
 	
 	public Response merchantSignUp(MerchantAuth marchant) {
 		Response response = new Response();
@@ -85,12 +90,12 @@ public class MerchantService {
 	public MerchantProfile saveProfile(MerchantProfile profile, String accessToken){
 		MerchantAuth auth = authRepository.findByAccessToken(accessToken);
 		if (auth != null) {
-			auth.setProfile(profile);
-			MerchantAuth savedProfile = authRepository.save(auth);
-			return savedProfile.getProfile();
-		}else {
-			return  null;
+			profile.setMerchantId(auth.getId());
+			MerchantProfile savedProfile = merchantProfileRepository.save(profile);
+			return savedProfile;
 		}
+		return null;
+		
 	}
 
 }

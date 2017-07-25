@@ -27,7 +27,7 @@ public class MerchantController {
 	@PostMapping("/signup")
 	public ResponseEntity<Response> addMerchant(@RequestBody MerchantAuth merchant) {
 		Response response = service.merchantSignUp(merchant);
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/signup/verify")
@@ -47,7 +47,10 @@ public class MerchantController {
 	@PostMapping("/profile")
 	public ResponseEntity<MerchantProfile> createMerchantProfile(@RequestBody MerchantProfile profile, @RequestHeader String accessToken) {
 		MerchantProfile savedProfile = service.saveProfile(profile, accessToken);
-		return new ResponseEntity<>(savedProfile, HttpStatus.OK);
+		if (savedProfile != null) {
+			return new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
+		}
+		return new ResponseEntity<>(savedProfile, HttpStatus.NOT_FOUND);
 	}
 
 }
