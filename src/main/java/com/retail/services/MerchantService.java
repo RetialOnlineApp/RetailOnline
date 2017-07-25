@@ -1,6 +1,7 @@
 package com.retail.services;
 
-import java.util.UUID;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.retail.domains.AccessTokenResponse;
@@ -10,6 +11,7 @@ import com.retail.entities.MerchantProfile;
 import com.retail.repositories.MerchantAuthRepository;
 import com.retail.repositories.MerchantProfileRepository;
 import com.retail.util.EmailService;
+import com.retail.util.SecurityService;
 
 @Service
 public class MerchantService {
@@ -21,29 +23,37 @@ public class MerchantService {
 	private MerchantAuthRepository authRepository;
 
 	@Autowired
-	private MerchantProfileRepository merchantProfileRepository;
+	private MerchantProfileRepository profileRepository;
 
 	public Response merchantSignUp(MerchantAuth marchant) {
 		Response response = new Response();
-		String verifyToken = UUID.randomUUID().toString();
-		MerchantAuth existingMarchant = authRepository.findByEmail(marchant.getEmail());
-		if (existingMarchant == null) {
-			marchant.setVerified(false);
-			marchant.setVerifyToken(verifyToken);
-			MerchantAuth createdMarchant = authRepository.save(marchant);
-			boolean mailStatus = sendVerificationMail(marchant, verifyToken);
-			if (mailStatus) {
-				response.setStatus("201");
-				response.setUserMessage("Marchant Created with EmailId :: " + createdMarchant.getEmail()
-						+ "  please check your mail for account activation link");
+		String verifyToken = SecurityService.getAccessToken();
+		try {
+
+			MerchantAuth existingMarchant = authRepository.findByEmail(marchant.getEmail());
+			if (existingMarchant == null) {
+				String plainPassword = marchant.getPassword();
+				String passwordHash = SecurityService.getMDHash(plainPassword);
+				marchant.setPassword(passwordHash);
+				marchant.setVerified(false);
+				marchant.setVerifyToken(verifyToken);
+				MerchantAuth createdMarchant = authRepository.save(marchant);
+				boolean mailStatus = sendVerificationMail(marchant, verifyToken);
+				if (mailStatus) {
+					response.setStatus("201");
+					response.setUserMessage("Marchant Created with EmailId :: " + createdMarchant.getEmail()
+							+ "  please check your mail for account activation link");
+				} else {
+					response.setStatus("500");
+					response.setUserMessage("invalid email..! Please check your mail once");
+				}
+
 			} else {
 				response.setStatus("500");
-				response.setUserMessage("invalid email..! Please check your mail once");
+				response.setUserMessage("Marchant Already exists with EmailId :: " + existingMarchant.getEmail());
 			}
-
-		} else {
-			response.setStatus("500");
-			response.setUserMessage("Marchant Already exists with EmailId :: " + existingMarchant.getEmail());
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
 		return response;
 
@@ -51,7 +61,7 @@ public class MerchantService {
 
 	public Response verifyMerchant(String token) {
 		Response response = new Response();
-		String accessToken = UUID.randomUUID().toString();
+		String accessToken = SecurityService.getAccessToken();
 		MerchantAuth auth = authRepository.findByVerifyToken(token);
 		if (auth != null && auth.isVerified() != true) {
 			auth.setVerified(true);
@@ -69,13 +79,17 @@ public class MerchantService {
 
 	public AccessTokenResponse accessToken(MerchantAuth merchant) {
 		AccessTokenResponse response = new AccessTokenResponse();
-		MerchantAuth auth = authRepository.findByEmailInAndPasswordIn(merchant.getEmail(), merchant.getPassword());
+		try{
+		String passwordHash = SecurityService.getMDHash(merchant.getPassword());
+		MerchantAuth auth = authRepository.findByEmailInAndPasswordIn(merchant.getEmail(), passwordHash);
 		if (auth != null) {
 			response.setAccessToken(auth.getAccessToken());
 			response.setEmail(auth.getEmail());
 			response.setDeveloperMSG("user message");
 		} else {
 			response.setDeveloperMSG("User not found");
+		}}catch (Exception e) {
+			e.printStackTrace();
 		}
 		return response;
 	}
@@ -88,20 +102,19 @@ public class MerchantService {
 	public MerchantProfile saveProfile(MerchantProfile profile, String accessToken) {
 		MerchantAuth auth = authRepository.findByAccessToken(accessToken);
 		if (auth != null) {
-			MerchantProfile existingProfile = merchantProfileRepository.findByMerchantId(auth.getId());
+			MerchantProfile existingProfile = profileRepository.findByMerchantId(auth.getId());
 
 			if (existingProfile != null) {
 				Integer id = existingProfile.getId();
 				existingProfile = profile;
 				existingProfile.setId(id);
 				existingProfile.setMerchantId(auth.getId());
-				System.out.println("================"+existingProfile.getId());
 
-				MerchantProfile savedProfile = merchantProfileRepository.save(existingProfile);
+				MerchantProfile savedProfile = profileRepository.save(existingProfile);
 				return savedProfile;
 			} else {
 				profile.setMerchantId(auth.getId());
-				MerchantProfile savedProfile = merchantProfileRepository.save(profile);
+				MerchantProfile savedProfile = profileRepository.save(profile);
 				return savedProfile;
 			}
 
@@ -109,5 +122,32 @@ public class MerchantService {
 		return null;
 
 	}
-
+	
+	public Response logout(String accessToken) {
+		Response response = new Response();
+		MerchantAuth auth = authRepository.findByAccessToken(accessToken);
+		if (auth != null) {
+			String newAccessToken = SecurityService.getAccessToken();
+			auth.setAccessToken(newAccessToken);
+			authRepository.save(auth);
+			response.setStatus("200");
+			response.setUserMessage("user logout");
+			}else {
+				response.setStatus("404");
+				response.setUserMessage("user not found");
+			}
+		return response;
+	}
+	
+	public MerchantProfile getProfile(String accessToken) {
+		MerchantProfile response = null;
+		MerchantAuth auth = authRepository.findByAccessToken(accessToken);
+		if (auth != null) {
+			Integer merchantId = auth.getId();
+			response = profileRepository.findByMerchantId(merchantId);
+			}else {
+				return null;
+			}
+		return response;
+	}
 }

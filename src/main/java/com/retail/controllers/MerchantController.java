@@ -45,12 +45,32 @@ public class MerchantController {
 	}
 
 	@PostMapping("/profile")
-	public ResponseEntity<MerchantProfile> createMerchantProfile(@RequestBody MerchantProfile profile, @RequestHeader String accessToken) {
+	public ResponseEntity<MerchantProfile> createProfile(@RequestBody MerchantProfile profile, @RequestHeader String accessToken) {
 		MerchantProfile savedProfile = service.saveProfile(profile, accessToken);
 		if (savedProfile != null) {
 			return new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
 		}
 		return new ResponseEntity<>(savedProfile, HttpStatus.NOT_FOUND);
 	}
+	
+	@GetMapping("/logout")
+	public ResponseEntity<Response> logout(@RequestHeader String accessToken) {
+		Response response = service.logout(accessToken);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+
+	}
+	
+	@GetMapping("/profile")
+	public ResponseEntity<MerchantProfile> getProfile(@RequestHeader String accessToken) {
+		MerchantProfile profile = service.getProfile(accessToken);
+		if (profile != null) {
+			return new ResponseEntity<>(profile, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(profile, HttpStatus.UNAUTHORIZED);
+		}
+		
+
+	}
+
 
 }
