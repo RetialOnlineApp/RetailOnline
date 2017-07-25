@@ -17,6 +17,8 @@ import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
 import com.retail.entities.MerchantProfile;
 import com.retail.entities.UserAuth;
+import com.retail.entities.UserProfile;
+import com.retail.repositories.MerchantProfileRepository;
 import com.retail.repositories.UserAuthRepository;
 import com.retail.services.UserService;
 
@@ -24,31 +26,22 @@ import com.retail.services.UserService;
 @RequestMapping("/api/user")
 public class UserController {
 
-	/*
-	 * Auto wiring dependency here , so no need to create and initialize object
-	 * spring boot will do it for us
-	 */
-
-	UserAuthRepository userAuthRepository;
-	//MarchantProfileRepository marchantProfileRepository;
-	
-
-	
-	// This service contains all the logic for user registration , login
+	@Autowired
 	UserService service ;
 
-	// Function will accept user object in JSON format and will store it in
-	// database
+	MerchantProfileRepository merchantProfileRepository;
+	
+	
 	@PostMapping("/signup")
 	public ResponseEntity<Response> addUser(@RequestBody UserAuth user) {
-		Response response = service.userSignUp(user, userAuthRepository);
-		return new ResponseEntity<Response>(response, HttpStatus.OK);
+		Response response = service.userSignUp(user);
+		return new ResponseEntity<Response>(response, HttpStatus.CREATED);
 	}
 
 	// to verify user with email verification
 	@GetMapping("/signup/verify")
 	public ResponseEntity<Response> verifyUser(@RequestParam String token) {
-		Response response = service.verifyUser(token, userAuthRepository);
+		Response response = service.verifyUser(token);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 
 	}
@@ -56,7 +49,7 @@ public class UserController {
 	// returns accessToken for user to validate other API'S
 	@PostMapping("/accessToken")
 	public ResponseEntity<AccessTokenResponse> accessToken(@RequestBody UserAuth user) {
-		AccessTokenResponse response = service.accessToken(user, userAuthRepository);
+		AccessTokenResponse response = service.accessToken(user);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	

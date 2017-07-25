@@ -8,16 +8,26 @@ import org.springframework.stereotype.Service;
 import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
 import com.retail.entities.UserAuth;
+import com.retail.entities.UserProfile;
 import com.retail.repositories.UserAuthRepository;
+import com.retail.repositories.UserProfileRepository;
 import com.retail.util.EmailService;
 
 @Service
 public class UserService {
-	
+ 
 	@Autowired
 	EmailService emailService;
 
-	public Response userSignUp(UserAuth user, UserAuthRepository userAuthRepository) {
+	@Autowired
+	UserProfileRepository profileRepo ;
+	
+	@Autowired
+	UserAuthRepository userAuthRepository;
+	
+	
+
+	public Response userSignUp(UserAuth user ) {
 		Response response = new Response();
 		String verifyToken = UUID.randomUUID().toString();
 		UserAuth existingUser = userAuthRepository.findByEmail(user.getEmail());
@@ -43,14 +53,14 @@ public class UserService {
 
 	}
 
-	public Response verifyUser(String token, UserAuthRepository authRepository) {
+	public Response verifyUser(String token ) {
 		Response response = new Response();
 		String accessToken = UUID.randomUUID().toString();
-		UserAuth auth = authRepository.findByVerifyToken(token);
+		UserAuth auth = userAuthRepository.findByVerifyToken(token);
 		if (auth != null && auth.isVerified() != true) {
 			auth.setVerified(true);
 			auth.setAccessToken(accessToken);
-			authRepository.save(auth);
+			userAuthRepository.save(auth);
 			response.setUserMessage("Account verified.. Thanks for you time");
 			response.setStatus("200");
 		} else {
@@ -61,9 +71,9 @@ public class UserService {
 		return response;
 	}
 
-	public AccessTokenResponse accessToken(UserAuth user, UserAuthRepository authRepository) {
+	public AccessTokenResponse accessToken(UserAuth user) {
 		AccessTokenResponse response = new AccessTokenResponse();
-		UserAuth auth = authRepository.findByEmailInAndPasswordIn(user.getEmail(), user.getPassword());
+		UserAuth auth = userAuthRepository.findByEmailInAndPasswordIn(user.getEmail(), user.getPassword());
 		if (auth != null && auth.isVerified()) {
 			response.setAccessToken(auth.getAccessToken());
 			response.setEmail(auth.getEmail());
@@ -74,9 +84,15 @@ public class UserService {
 		return response;
 	}
 
+
+
 	private boolean sendVerificationMail(UserAuth user, String verifyToken) {
 		boolean status = emailService.sendMailToUser(user.getEmail(), verifyToken);
 		return status;
+	}
+
+	public UserProfile userDetails(UserProfile profile) {
+		return profileRepo.save(profile);
 	}
 
 }

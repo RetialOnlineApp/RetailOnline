@@ -5,9 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-
 @Entity
 public class Address {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
@@ -39,8 +39,5 @@ public class Address {
 	public void setPinCode(String pinCode) {
 		this.pinCode = pinCode;
 	}
-	
-	
-	
-	
+		
 }
