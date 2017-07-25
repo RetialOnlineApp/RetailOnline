@@ -1,7 +1,5 @@
 package com.retail.services;
 
-
-
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,16 +13,16 @@ import com.retail.util.EmailService;
 
 @Service
 public class MerchantService {
-	
+
 	@Autowired
 	private EmailService emailService;
-	
+
 	@Autowired
 	private MerchantAuthRepository authRepository;
-	
+
 	@Autowired
 	private MerchantProfileRepository merchantProfileRepository;
-	
+
 	public Response merchantSignUp(MerchantAuth marchant) {
 		Response response = new Response();
 		String verifyToken = UUID.randomUUID().toString();
@@ -86,16 +84,30 @@ public class MerchantService {
 		boolean status = emailService.sendMailToMarchant(merchant.getEmail(), verifyToken);
 		return status;
 	}
-	
-	public MerchantProfile saveProfile(MerchantProfile profile, String accessToken){
+
+	public MerchantProfile saveProfile(MerchantProfile profile, String accessToken) {
 		MerchantAuth auth = authRepository.findByAccessToken(accessToken);
 		if (auth != null) {
-			profile.setMerchantId(auth.getId());
-			MerchantProfile savedProfile = merchantProfileRepository.save(profile);
-			return savedProfile;
+			MerchantProfile existingProfile = merchantProfileRepository.findByMerchantId(auth.getId());
+
+			if (existingProfile != null) {
+				Integer id = existingProfile.getId();
+				existingProfile = profile;
+				existingProfile.setId(id);
+				existingProfile.setMerchantId(auth.getId());
+				System.out.println("================"+existingProfile.getId());
+
+				MerchantProfile savedProfile = merchantProfileRepository.save(existingProfile);
+				return savedProfile;
+			} else {
+				profile.setMerchantId(auth.getId());
+				MerchantProfile savedProfile = merchantProfileRepository.save(profile);
+				return savedProfile;
+			}
+
 		}
 		return null;
-		
+
 	}
 
 }
