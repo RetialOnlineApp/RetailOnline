@@ -17,11 +17,8 @@ import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
 import com.retail.entities.MarchantProfile;
 import com.retail.entities.UserAuth;
-<<<<<<< HEAD
 import com.retail.entities.UserProfile;
-=======
 import com.retail.repositories.MarchantProfileRepository;
->>>>>>> df0e044d9b0ed58f42e059bebe34dd1d51a9787d
 import com.retail.repositories.UserAuthRepository;
 import com.retail.services.UserService;
 
@@ -35,12 +32,9 @@ public class UserController {
 	 */
 
 	UserAuthRepository userAuthRepository;
-<<<<<<< HEAD
 
-=======
 	MarchantProfileRepository marchantProfileRepository;
 	
->>>>>>> df0e044d9b0ed58f42e059bebe34dd1d51a9787d
 	@Autowired
 	public UserController(UserAuthRepository userAuthRepository, UserService service, MarchantProfileRepository marchantProfileRepository) {
 		this.userAuthRepository = userAuthRepository;
