@@ -13,19 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.retail.domains.AccessTokenResponse;
 import com.retail.domains.Response;
 import com.retail.entities.UserAuth;
-<<<<<<< HEAD
 import com.retail.entities.UserProfile;
-import com.retail.repositories.MarchantProfileRepository;
 import com.retail.repositories.UserAuthRepository;
-=======
->>>>>>> 8359bf19de08db6809d1049527326c6efacd7aa2
+import com.retail.repositories.UserProfileRepository;
 import com.retail.services.UserService;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
 
-<<<<<<< HEAD
 	/*
 	 * Auto wiring dependency here , so no need to create and initialize object
 	 * spring boot will do it for us
@@ -33,14 +29,23 @@ public class UserController {
 
 	UserAuthRepository userAuthRepository;
 
-	MarchantProfileRepository marchantProfileRepository;
 	
-=======
->>>>>>> 8359bf19de08db6809d1049527326c6efacd7aa2
 	@Autowired
 	UserService service ;
 	
-	
+	@Autowired
+	UserProfileRepository userProfileRepository;
+   
+
+	public UserController(UserAuthRepository userAuthRepository, UserProfileRepository userProfileRepository,
+			UserService service) {
+		this.userAuthRepository = userAuthRepository;
+		this.userProfileRepository = userProfileRepository;
+		this.service = service;
+	}
+
+	// Function will accept user object in JSON format and will store it in
+	// database
 	@PostMapping("/signup")
 	public ResponseEntity<Response> addUser(@RequestBody UserAuth user) {
 		Response response = service.userSignUp(user);
@@ -61,7 +66,20 @@ public class UserController {
 		AccessTokenResponse response = service.accessToken(user);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	
-	
+
+	/*
+	 * @GetMapping("/logout") public ResponseEntity<Response> logout() { String
+	 * accessToken = ""; Response response = service.logout(accessToken,
+	 * userAuthRepository); return new ResponseEntity<>(response,
+	 * HttpStatus.OK); }
+	 */
+
+	// This function will accept UserProfile details in JSON and store it into
+	// the DataBase
+	@PostMapping("/profile")
+	public ResponseEntity<UserProfile> createProfile(@RequestBody UserProfile profile) {
+		profile = service.userDetails(profile);
+		return new ResponseEntity<>(profile, HttpStatus.CREATED);
+	}
 
 }
