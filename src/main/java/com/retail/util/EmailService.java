@@ -30,7 +30,7 @@ public class EmailService {
 
 	public boolean sendMailToMarchant(String to, String verifyToken) {
 		String msg = "Please click on the below link to verify your account \n"
-				+ "http://localhost:8080/api/marchant/signup/verify?token=" + verifyToken;
+				+ "http://localhost:8080/api/merchant/signup/verify?token=" + verifyToken;
 		if (isValidEmailAddress(to)) {
 			return sendMail(to,"Retail Verification", msg);
 		} else {

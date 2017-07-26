@@ -4,12 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
 
 @Entity
-@Table(name = "UserAuth")
 public class UserAuth {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

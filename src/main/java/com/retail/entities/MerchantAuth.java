@@ -4,13 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.hibernate.validator.constraints.Email;
 
 @Entity
-@Table(name = "marchantAuth")
-public class MarchantAuth {
+public class MerchantAuth {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,6 +34,7 @@ public class MarchantAuth {
 	public void setVerified(boolean isVerified) {
 		this.isVerified = isVerified;
 	}
+
 
 	public String getEmail() {
 		return email;
