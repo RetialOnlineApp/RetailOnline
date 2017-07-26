@@ -50,14 +50,7 @@ public class MerchantController {
 		if (savedProfile != null) {
 			return new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
 		}
-		return new ResponseEntity<>(savedProfile, HttpStatus.NOT_FOUND);
-	}
-	
-	@GetMapping("/logout")
-	public ResponseEntity<Response> logout(@RequestHeader String accessToken) {
-		Response response = service.logout(accessToken);
-		return new ResponseEntity<>(response, HttpStatus.OK);
-
+		return new ResponseEntity<>(savedProfile, HttpStatus.UNAUTHORIZED);
 	}
 	
 	@GetMapping("/profile")
@@ -69,8 +62,16 @@ public class MerchantController {
 			return new ResponseEntity<>(profile, HttpStatus.UNAUTHORIZED);
 		}
 		
+	}
+	
+	@GetMapping("/logout")
+	public ResponseEntity<Response> logout(@RequestHeader String accessToken) {
+		Response response = service.logout(accessToken);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 
 	}
+	
+	
 
 
 }
