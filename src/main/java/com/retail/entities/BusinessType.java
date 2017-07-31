@@ -15,6 +15,7 @@ public class BusinessType {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private String type;
+	
     @OneToMany(cascade = CascadeType.ALL)
 	private List<Product> products;
 	

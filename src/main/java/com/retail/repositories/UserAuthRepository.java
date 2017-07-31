@@ -1,14 +1,17 @@
 package com.retail.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+
 import com.retail.entities.UserAuth;
 
-public interface UserAuthRepository extends JpaRepository<UserAuth, Integer> {
+public interface UserAuthRepository extends CrudRepository<UserAuth, Integer> {
 	UserAuth findByVerifyToken(String token);
 
 	UserAuth findByEmail(String email);
 
 	UserAuth findByEmailInAndPasswordIn(String email, String password);
+
+	UserAuth findByAccessToken(String accessToken);
 
 
 }

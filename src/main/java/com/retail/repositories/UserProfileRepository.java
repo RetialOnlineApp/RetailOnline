@@ -6,4 +6,6 @@ import com.retail.entities.UserProfile;
 
 public interface UserProfileRepository extends CrudRepository<UserProfile, Integer> {
 
+	public UserProfile findByUserId(Integer id);
+
 }

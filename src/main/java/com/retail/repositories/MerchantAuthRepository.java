@@ -13,4 +13,6 @@ public interface MerchantAuthRepository extends CrudRepository<MerchantAuth, Int
 	
 	MerchantAuth findByAccessToken(String accessToken);
 
+	MerchantAuth save(String confirmPassword);
+
 }
