@@ -14,7 +14,8 @@ public class Address {
 	private String city;
 	private String area;
 	private String pinCode;
-	
+	private String landMark;
+
 	public Integer getId() {
 		return id;
 	}
@@ -38,6 +39,12 @@ public class Address {
 	}
 	public void setPinCode(String pinCode) {
 		this.pinCode = pinCode;
+	}
+	public String getLandMark() {
+		return landMark;
+	}
+	public void setLandMark(String landMark) {
+		this.landMark = landMark;
 	}
 		
 }
