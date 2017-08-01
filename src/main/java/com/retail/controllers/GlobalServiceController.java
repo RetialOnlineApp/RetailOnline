@@ -1,6 +1,7 @@
 package com.retail.controllers;
 
 
+import com.retail.entities.Product;
 import com.retail.entities.ServiceLocations.Locations;
 import com.retail.services.GlobalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,11 @@ public class GlobalServiceController {
     public ResponseEntity<List<Locations>> postServiceLocations(@RequestBody List<Locations> locations) {
         List<Locations> foundLocations = service.postServiceLocations(locations);
         return new ResponseEntity<>(foundLocations, HttpStatus.OK);
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getVegitableProducts() {
+        List<Product> productList = service.getVegitableProduct();
+        return new ResponseEntity<List<Product>>(productList, HttpStatus.OK);
     }
 }
