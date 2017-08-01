@@ -25,25 +25,26 @@ public class MerchantService {
 	@Autowired
 	private MerchantProfileRepository profileRepository;
 
-	public Response merchantSignUp(MerchantAuth marchant) {
+	public Response merchantSignUp(MerchantAuth merchant) {
 		Response response = new Response();
 		String verifyToken = SecurityService.getAccessToken();
 		try {
 
-			MerchantAuth existingMarchant = authRepository.findByEmail(marchant.getEmail());
+			MerchantAuth existingMarchant = authRepository.findByEmail(merchant.getEmail());
 			if (existingMarchant == null) {
-				String plainPassword = marchant.getPassword();
+				String plainPassword = merchant.getPassword();
 				String passwordHash = SecurityService.getMDHash(plainPassword);
-				marchant.setPassword(passwordHash);
-				marchant.setVerified(false);
-				marchant.setVerifyToken(verifyToken);
-				MerchantAuth createdMarchant = authRepository.save(marchant);
-				boolean mailStatus = sendVerificationMail(marchant, verifyToken);
+				merchant.setPassword(passwordHash);
+				merchant.setVerified(false);
+				merchant.setVerifyToken(verifyToken);
+				MerchantAuth createdMarchant = authRepository.save(merchant);
+				boolean mailStatus = sendVerificationMail(merchant);
 				if (mailStatus) {
 					response.setStatus("201");
 					response.setUserMessage("Marchant Created with EmailId :: " + createdMarchant.getEmail()
 							+ "  please check your mail for account activation link");
 				} else {
+					authRepository.delete(merchant.getId());
 					response.setStatus("500");
 					response.setUserMessage("invalid email..! Please check your mail once");
 				}
@@ -94,8 +95,8 @@ public class MerchantService {
 		return response;
 	}
 
-	private boolean sendVerificationMail(MerchantAuth merchant, String verifyToken) {
-		boolean status = emailService.sendMailToMarchant(merchant.getEmail(), verifyToken);
+	private boolean sendVerificationMail(MerchantAuth merchant) {
+		boolean status = emailService.sendMailToMarchant(merchant.getEmail(), merchant.getVerifyToken());
 		return status;
 	}
 

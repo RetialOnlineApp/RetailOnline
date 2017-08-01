@@ -35,12 +35,13 @@ public class UserService {
 			user.setVerified(false);
 			user.setVerifyToken(verifyToken);
 			UserAuth createdUser = userAuthRepository.save(user);
-			boolean mailStatus = sendVerificationMail(user, verifyToken);
+			boolean mailStatus = sendVerificationMail(user);
 			if (mailStatus) {
 				response.setStatus("201");
 				response.setUserMessage("User Created with EmailId :: " + createdUser.getEmail()
 						+ "  please check your mail for account activation link");
 			} else {
+				userAuthRepository.delete(user.getId());
 				response.setStatus("500");
 				response.setUserMessage("invalid email..! Please check your mail once");
 			}
@@ -84,8 +85,8 @@ public class UserService {
 		return response;
 	}
 
-	private boolean sendVerificationMail(UserAuth user, String verifyToken) {
-		boolean status = emailService.sendMailToUser(user.getEmail(), verifyToken);
+	private boolean sendVerificationMail(UserAuth user) {
+		boolean status = emailService.sendMailToUser(user.getEmail(), user.getVerifyToken());
 		return status;
 	}
 
