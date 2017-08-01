@@ -2,7 +2,7 @@ package com.retail.controllers;
 
 
 import com.retail.entities.ServiceLocations.Locations;
-import com.retail.services.LocationsService;
+import com.retail.services.GlobalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/service")
-public class ServiceLocationsController {
+public class GlobalServiceController {
 
     @Autowired
-    LocationsService service;
+    GlobalService service;
 
     @GetMapping("/locations")
     public ResponseEntity<List<Locations>> getServiceLocations() {

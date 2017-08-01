@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class LocationsService {
+public class GlobalService {
 
     @Autowired
     ServiceLocationsRepository serviceLocationsRepository;
