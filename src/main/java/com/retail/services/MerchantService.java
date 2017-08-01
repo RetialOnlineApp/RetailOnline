@@ -102,22 +102,8 @@ public class MerchantService {
 	public MerchantProfile saveProfile(MerchantProfile profile, String accessToken) {
 		MerchantAuth auth = authRepository.findByAccessToken(accessToken);
 		if (auth != null) {
-			MerchantProfile existingProfile = profileRepository.findByMerchantId(auth.getId());
-
-			if (existingProfile != null) {
-				Integer id = existingProfile.getId();
-				existingProfile = profile;
-				existingProfile.setId(id);
-				existingProfile.setMerchantId(auth.getId());
-
-				MerchantProfile savedProfile = profileRepository.save(existingProfile);
-				return savedProfile;
-			} else {
-				profile.setMerchantId(auth.getId());
-				MerchantProfile savedProfile = profileRepository.save(profile);
-				return savedProfile;
-			}
-
+			profile.setMerchantId(auth.getId());
+			return profileRepository.save(profile);
 		}
 		return null;
 
