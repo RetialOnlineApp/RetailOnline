@@ -70,7 +70,18 @@ public class MerchantController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 
 	}
-	
+
+	@GetMapping("/status")
+	public ResponseEntity<Response> status(@RequestHeader String accessToken) {
+		Response response = service.getStatus(accessToken);
+		if (response != null) {
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+
+
+	}
 	
 
 

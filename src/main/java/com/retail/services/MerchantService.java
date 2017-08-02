@@ -41,7 +41,7 @@ public class MerchantService {
 				boolean mailStatus = sendVerificationMail(merchant);
 				if (mailStatus) {
 					response.setStatus("201");
-					response.setUserMessage("Marchant Created with EmailId :: " + createdMarchant.getEmail()
+					response.setUserMessage("Merchant Created with EmailId :: " + createdMarchant.getEmail()
 							+ "  please check your mail for account activation link");
 				} else {
 					authRepository.delete(merchant.getId());
@@ -51,7 +51,7 @@ public class MerchantService {
 
 			} else {
 				response.setStatus("500");
-				response.setUserMessage("Marchant Already exists with EmailId :: " + existingMarchant.getEmail());
+				response.setUserMessage("Merchant Already exists with EmailId :: " + existingMarchant.getEmail());
 			}
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -136,5 +136,24 @@ public class MerchantService {
 				return null;
 			}
 		return response;
+	}
+
+	public Response getStatus(String accessToken) {
+		Response response = new Response();
+		MerchantAuth merchantAuth = authRepository.findByAccessToken(accessToken);
+		if (merchantAuth != null) {
+			boolean verified = merchantAuth.isVerified();
+			if (verified) {
+				response.setStatus("true");
+				response.setUserMessage("merchant verification is done");
+			}else {
+				response.setStatus("false");
+				response.setUserMessage("merchant verification is not done");
+			}
+			return response;
+		} else {
+			return null;
+		}
+
 	}
 }
