@@ -22,6 +22,10 @@ public class MerchantService {
 		User user = oauthService.checkAccessToken(accessToken);
 		if (user != null) {
 			profile.setMerchantId(user.getId());
+			Integer id = profile.getId();
+			profile.getBussinessProfile().setId(id);
+			profile.setEmail(user.getEmail());
+			profile.setStatus("Active");
 			MerchantProfile save = profileRepository.save(profile);
 			return new ResponseEntity<>(save, HttpStatus.CREATED);
 		}else {

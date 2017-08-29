@@ -1,11 +1,6 @@
 package com.retail.merchant.entities;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class MerchantProfile {
@@ -17,9 +12,37 @@ public class MerchantProfile {
 	private String firstName;
 	private String lastName;
 	private String mobileNumber;
-
+	private String email;
+	private String dateOfBirth;
+	private String status;
 	@OneToOne(optional = false, cascade = CascadeType.ALL)
-	private VendorProfile vendorProfile;
+	private BussinessProfile bussinessProfile;
+
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 
 	public Integer getId() {
 		return id;
@@ -29,12 +52,12 @@ public class MerchantProfile {
 		this.id = id;
 	}
 
-	public VendorProfile getVendorProfile() {
-		return vendorProfile;
+	public BussinessProfile getBussinessProfile() {
+		return bussinessProfile;
 	}
 
-	public void setVendorProfile(VendorProfile vendorProfile) {
-		this.vendorProfile = vendorProfile;
+	public void setBussinessProfile(BussinessProfile bussinessProfile) {
+		this.bussinessProfile = bussinessProfile;
 	}
 
 	public String getFirstName() {

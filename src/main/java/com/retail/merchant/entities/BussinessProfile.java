@@ -8,19 +8,18 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class VendorProfile {
+public class BussinessProfile {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	
+
 	@OneToOne(optional = false,cascade = CascadeType.ALL)
     private Address address;
 	
 	private String shopName;
-	
-	@OneToOne(optional = false,cascade = CascadeType.ALL)
-	private BusinessType businessType;
+
+	private String serviceType;
 	
 	public Integer getId() {
 		return id;
@@ -46,12 +45,12 @@ public class VendorProfile {
 		this.shopName = shopName;
 	}
 
-	public BusinessType getBusinessType() {
-		return businessType;
+	public String getBusinessType() {
+		return serviceType;
 	}
 
-	public void setBusinessType(BusinessType businessType) {
-		this.businessType = businessType;
+	public void setBusinessType(String serviceType) {
+		this.serviceType = serviceType;
 	}
 
 	
