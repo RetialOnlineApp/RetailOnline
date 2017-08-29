@@ -1,4 +1,4 @@
-package com.retail.merchant.repositories;
+package com.retail.global.repositories;
 
 
 import com.retail.global.entities.ServiceLocations.Locations;

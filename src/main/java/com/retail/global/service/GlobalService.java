@@ -1,9 +1,9 @@
 package com.retail.global.service;
 
-import com.retail.merchant.entities.Product;
+import com.retail.global.entities.Product;
 import com.retail.global.entities.ServiceLocations.Locations;
-import com.retail.merchant.repositories.ProductsRepository;
-import com.retail.merchant.repositories.ServiceLocationsRepository;
+import com.retail.global.repositories.ProductsRepository;
+import com.retail.global.repositories.ServiceLocationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

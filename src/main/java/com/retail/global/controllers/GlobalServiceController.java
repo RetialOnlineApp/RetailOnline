@@ -1,7 +1,7 @@
 package com.retail.global.controllers;
 
 
-import com.retail.merchant.entities.Product;
+import com.retail.global.entities.Product;
 import com.retail.global.entities.ServiceLocations.Locations;
 import com.retail.global.service.GlobalService;
 import org.springframework.beans.factory.annotation.Autowired;

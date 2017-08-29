@@ -21,7 +21,7 @@ public class EmailService {
 
 	public boolean sendMailToUser(String to, String verifyToken) {
 		String msg = "Please click on the below link to verify your account \n"
-				+ "http://localhost:8080/api/user/signup/verify?token=" + verifyToken;
+				+ "http://localhost:8080/api/auth/signup/verify?token=" + verifyToken;
 		if (isValidEmailAddress(to)) {
 			return sendMail(to,"Retail Verification", msg);
 		} else {
@@ -31,7 +31,7 @@ public class EmailService {
 
 	public boolean sendMailToMarchant(String to, String verifyToken) {
 		String msg = "Please click on the below link to verify your account \n"
-				+ "http://localhost:8080/api/merchant/signup/verify?token=" + verifyToken;
+				+ "http://localhost:8080/api/auth/signup/verify?token=" + verifyToken;
 		if (isValidEmailAddress(to)) {
 			return sendMail(to,"Retail Verification", msg);
 		} else {

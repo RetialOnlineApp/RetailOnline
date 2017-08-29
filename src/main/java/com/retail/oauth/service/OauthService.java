@@ -80,6 +80,8 @@ public class OauthService {
                     response.setAccessToken(auth.getAccessToken());
                     response.setEmail(auth.getEmail());
                     response.setDeveloperMSG("user message");
+                    response.setId(auth.getId());
+                    response.setRole(auth.getRole());
                 } else {
                     response.setDeveloperMSG("User not found");
                 }}catch (Exception e) {

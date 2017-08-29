@@ -1,7 +1,7 @@
-package com.retail.merchant.repositories;
+package com.retail.global.repositories;
 
 
-import com.retail.merchant.entities.Product;
+import com.retail.global.entities.Product;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,13 +1,9 @@
 package com.retail.merchant.entities;
 
-import java.util.List;
+import com.retail.global.entities.Product;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class BusinessType {

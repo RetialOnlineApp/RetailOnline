@@ -1,4 +1,4 @@
-package com.retail.merchant.entities;
+package com.retail.global.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
