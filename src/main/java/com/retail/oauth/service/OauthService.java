@@ -126,5 +126,13 @@ public class OauthService {
             }
 
         }
+        public User checkAccessToken(String accessToken) {
+            User user = userAuthRepository.findByAccessToken(accessToken);
+            if (user != null) {
+                return user;
+            }else {
+                return null;
+            }
+        }
     }
 
