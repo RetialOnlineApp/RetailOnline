@@ -1,4 +1,4 @@
-package com.oauth.entities;
+package com.retail.oauth.entities;
 
 import org.hibernate.validator.constraints.Email;
 

@@ -1,10 +1,11 @@
-package com.oauth.repositories;
+package com.retail.oauth.repositories;
 
-import com.oauth.entities.User;
+import com.retail.oauth.entities.User;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-
-public interface UserRepository extends CrudRepository<User, Integer> {
+@Repository
+public interface UserAuthRepository extends CrudRepository<User, Integer> {
 
     User findByEmail(String email);
 

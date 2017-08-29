@@ -11,7 +11,7 @@ import com.retail.merchant.entities.MerchantProfile;
 import com.retail.merchant.repositories.MerchantAuthRepository;
 import com.retail.merchant.repositories.MerchantProfileRepository;
 import com.retail.util.EmailService;
-import com.oauth.service.SecurityService;
+import com.retail.oauth.service.SecurityService;
 
 @Service
 public class MerchantService {

@@ -1,13 +1,13 @@
-package com.oauth.service;
+package com.retail.oauth.service;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
-@Component
+@Service
 public class SecurityService {
 	
 	public static String getMDHash(String plainText) throws NoSuchAlgorithmException, UnsupportedEncodingException {

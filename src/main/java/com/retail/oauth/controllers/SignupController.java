@@ -1,7 +1,7 @@
-package com.oauth.controller;
+package com.retail.oauth.controllers;
 
-import com.oauth.entities.User;
-import com.oauth.service.OauthService;
+import com.retail.oauth.entities.User;
+import com.retail.oauth.service.OauthService;
 import com.retail.merchant.domains.AccessTokenResponse;
 import com.retail.merchant.domains.Response;
 import org.springframework.beans.factory.annotation.Autowired;

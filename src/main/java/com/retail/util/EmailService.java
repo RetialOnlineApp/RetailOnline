@@ -1,15 +1,15 @@
 package com.retail.util;
 
-import com.oauth.entities.User;
+import com.retail.oauth.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
-@Component
+@Service
 public class EmailService {
 
 	private JavaMailSender javaMailSender;
