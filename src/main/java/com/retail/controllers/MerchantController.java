@@ -16,7 +16,7 @@ import com.retail.domains.Response;
 import com.retail.entities.MerchantAuth;
 import com.retail.entities.MerchantProfile;
 import com.retail.services.MerchantService;
-
+//hi
 @RestController
 @RequestMapping("/api/merchant")
 public class MerchantController {
