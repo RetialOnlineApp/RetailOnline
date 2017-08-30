@@ -1,23 +1,40 @@
 package com.retail.merchant.entities;
 
+import com.retail.oauth.entities.User;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name = "merchant_profile")
 public class MerchantProfile {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "merchant_profile_id")
 	private Integer id;
-	private Integer merchantId;
+
+	@OneToOne(targetEntity = User.class)
+	private User user;
+
+	@JoinColumn(name = "bussiness_profile_id")
+	@OneToOne(fetch=FetchType.LAZY,targetEntity = BussinessProfile.class,optional = true)
+	private BussinessProfile bussinessProfile;
+
 	private String firstName;
 	private String lastName;
 	private String mobileNumber;
 	private String email;
 	private String dateOfBirth;
 	private String status;
-	@OneToOne(optional = false, cascade = CascadeType.ALL)
-	private BussinessProfile bussinessProfile;
 
+
+	public Integer getUser() {
+		return user.getId();
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public String getEmail() {
 		return email;
@@ -25,6 +42,15 @@ public class MerchantProfile {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+
+	public BussinessProfile getBussinessProfile() {
+		return bussinessProfile;
+	}
+
+	public void setBussinessProfile(BussinessProfile bussinessProfile) {
+		this.bussinessProfile = bussinessProfile;
 	}
 
 	public String getDateOfBirth() {
@@ -43,21 +69,12 @@ public class MerchantProfile {
 		this.status = status;
 	}
 
-
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public BussinessProfile getBussinessProfile() {
-		return bussinessProfile;
-	}
-
-	public void setBussinessProfile(BussinessProfile bussinessProfile) {
-		this.bussinessProfile = bussinessProfile;
 	}
 
 	public String getFirstName() {
@@ -84,12 +101,5 @@ public class MerchantProfile {
 		this.mobileNumber = mobileNumber;
 	}
 
-	public Integer getMerchantId() {
-		return merchantId;
-	}
-
-	public void setMerchantId(Integer merchantId) {
-		this.merchantId = merchantId;
-	}
 
 }

@@ -1,20 +1,24 @@
 package com.retail.merchant.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "address")
 public class Address {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "address_id")
 	private Integer id;
-	private String city;
+
+    @OneToOne(targetEntity =BussinessProfile.class)
+    private BussinessProfile bussinessProfile;
+
+    private String city;
 	private String area;
 	private String pinCode;
 	private String landMark;
+
 
 	public Integer getId() {
 		return id;
@@ -46,5 +50,14 @@ public class Address {
 	public void setLandMark(String landMark) {
 		this.landMark = landMark;
 	}
+
+
+    public BussinessProfile getBussinessProfile() {
+        return bussinessProfile;
+    }
+
+    public void setBussinessProfile(BussinessProfile bussinessProfile) {
+        this.bussinessProfile = bussinessProfile;
+    }
 		
 }

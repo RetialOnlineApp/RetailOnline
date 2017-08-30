@@ -21,9 +21,7 @@ public class MerchantService {
 	public ResponseEntity<MerchantProfile> saveProfile(MerchantProfile profile, String accessToken) {
 		User user = oauthService.checkAccessToken(accessToken);
 		if (user != null) {
-			profile.setMerchantId(user.getId());
-			Integer id = profile.getId();
-			profile.getBussinessProfile().setId(id);
+			profile.setUser(user);
 			profile.setEmail(user.getEmail());
 			profile.setStatus("Active");
 			MerchantProfile save = profileRepository.save(profile);
@@ -36,7 +34,7 @@ public class MerchantService {
 	public ResponseEntity<MerchantProfile> getProfile(String accessToken) {
 		User user = oauthService.checkAccessToken(accessToken);
 		if (user != null) {
-			MerchantProfile byMerchantId = profileRepository.findByMerchantId(user.getId());
+			MerchantProfile byMerchantId = profileRepository.findByUser(user);
 			if (byMerchantId != null) {
 				return new ResponseEntity<>(byMerchantId, HttpStatus.OK);
 			}else {
