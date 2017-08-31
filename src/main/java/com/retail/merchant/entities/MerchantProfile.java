@@ -1,24 +1,13 @@
 package com.retail.merchant.entities;
 
-import com.retail.oauth.entities.User;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "merchant_profile")
 public class MerchantProfile {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "merchant_profile_id")
 	private Integer id;
-
-	@OneToOne(targetEntity = User.class)
-	private User user;
-
-	@JoinColumn(name = "bussiness_profile_id")
-	@OneToOne(fetch=FetchType.LAZY,targetEntity = BussinessProfile.class,optional = true)
-	private BussinessProfile bussinessProfile;
 
 	private String firstName;
 	private String lastName;
@@ -26,14 +15,17 @@ public class MerchantProfile {
 	private String email;
 	private String dateOfBirth;
 	private String status;
+	private Integer userId;
 
+	@OneToOne(cascade = CascadeType.PERSIST)
+	private BussinessProfile bussinessProfile;
 
-	public Integer getUser() {
-		return user.getId();
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getEmail() {
@@ -43,7 +35,6 @@ public class MerchantProfile {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 	public BussinessProfile getBussinessProfile() {
 		return bussinessProfile;

@@ -3,18 +3,12 @@ package com.retail.merchant.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "address")
 public class Address {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "address_id")
 	private Integer id;
-
-    @OneToOne(targetEntity =BussinessProfile.class)
-    private BussinessProfile bussinessProfile;
-
-    private String city;
+	private String city;
 	private String area;
 	private String pinCode;
 	private String landMark;
@@ -52,12 +46,5 @@ public class Address {
 	}
 
 
-    public BussinessProfile getBussinessProfile() {
-        return bussinessProfile;
-    }
 
-    public void setBussinessProfile(BussinessProfile bussinessProfile) {
-        this.bussinessProfile = bussinessProfile;
-    }
-		
 }

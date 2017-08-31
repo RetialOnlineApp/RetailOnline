@@ -1,17 +1,17 @@
 package com.retail.oauth.entities;
 
-import com.retail.merchant.entities.MerchantProfile;
 import org.hibernate.validator.constraints.Email;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
-@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
     private Integer id;
 
     @Email
@@ -24,18 +24,6 @@ public class User {
     private String role;
     boolean loginState;
     private String scope;
-
-    @OneToOne(fetch=FetchType.LAZY,targetEntity = MerchantProfile.class,optional = true)
-    @JoinColumn(name="merchant_profile_id")
-    private MerchantProfile merchantProfile;
-
-    public MerchantProfile getMerchantProfile() {
-        return merchantProfile;
-    }
-
-    public void setMerchantProfile(MerchantProfile merchantProfile) {
-        this.merchantProfile = merchantProfile;
-    }
 
     public String getRole() {
         return role;
