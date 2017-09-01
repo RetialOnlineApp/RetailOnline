@@ -8,9 +8,17 @@ public class Locations {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
+    private String city;
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Cities> cities;
+    private List<Areas> areas;
+
+    public List<Areas> getAreas() {
+        return areas;
+    }
+
+    public void setAreas(List<Areas> areas) {
+        this.areas = areas;
+    }
 
     public Integer getId() {
         return id;
@@ -20,12 +28,12 @@ public class Locations {
         this.id = id;
     }
 
-    public List<Cities> getCities() {
-        return cities;
+    public String getCity() {
+        return city;
     }
 
-    public void setCities(List<Cities> cities) {
-        this.cities = cities;
+    public void setCity(String city) {
+        this.city = city;
     }
 
 

@@ -1,6 +1,6 @@
 package com.retail.global.service;
 
-import com.retail.global.entities.Product;
+import com.retail.global.entities.Products;
 import com.retail.global.entities.ServiceLocations.Locations;
 import com.retail.global.repositories.ProductsRepository;
 import com.retail.global.repositories.ServiceLocationsRepository;
@@ -33,11 +33,11 @@ public class GlobalService {
         return locationsList;
     }
 
-    public List<Product> getVegitableProduct() {
-        Iterable<Product> products = productsRepository.findAll();
-        List<Product> productList = new ArrayList<>();
-        products.forEach((productList:: add));
-        return productList;
+    public List<Products> getVegitableProduct() {
+        Iterable<Products> products = productsRepository.findAll();
+        List<Products> productsList = new ArrayList<>();
+        products.forEach((productsList:: add));
+        return productsList;
     }
 
 }

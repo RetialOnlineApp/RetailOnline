@@ -1,10 +1,10 @@
 package com.retail.global.repositories;
 
 
-import com.retail.global.entities.Product;
+import com.retail.global.entities.Products;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductsRepository extends CrudRepository<Product, Integer>{
+public interface ProductsRepository extends CrudRepository<Products, Integer>{
 }
