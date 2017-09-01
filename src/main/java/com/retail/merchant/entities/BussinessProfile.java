@@ -9,21 +9,12 @@ public class BussinessProfile {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	private Address address;
 	
 	private String shopName;
 
 	private String serviceType;
-
-
-	public String getServiceType() {
-		return serviceType;
-	}
-
-	public void setServiceType(String serviceType) {
-		this.serviceType = serviceType;
-	}
 
 	public Integer getId() {
 		return id;
@@ -49,13 +40,16 @@ public class BussinessProfile {
 		this.shopName = shopName;
 	}
 
-	public String getBusinessType() {
+	public String getServiceType() {
 		return serviceType;
 	}
 
-	public void setBusinessType(String serviceType) {
+	public void setServiceType(String serviceType) {
 		this.serviceType = serviceType;
 	}
+
+
+
 
 	
     

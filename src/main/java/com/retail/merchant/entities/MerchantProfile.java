@@ -17,48 +17,8 @@ public class MerchantProfile {
 	private String status;
 	private Integer userId;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	private BussinessProfile bussinessProfile;
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public BussinessProfile getBussinessProfile() {
-		return bussinessProfile;
-	}
-
-	public void setBussinessProfile(BussinessProfile bussinessProfile) {
-		this.bussinessProfile = bussinessProfile;
-	}
-
-	public String getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(String dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public Integer getId() {
 		return id;
@@ -91,6 +51,49 @@ public class MerchantProfile {
 	public void setMobileNumber(String mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public BussinessProfile getBussinessProfile() {
+		return bussinessProfile;
+	}
+
+	public void setBussinessProfile(BussinessProfile bussinessProfile) {
+		this.bussinessProfile = bussinessProfile;
+	}
+
+
+
 
 
 }
