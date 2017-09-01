@@ -1,7 +1,7 @@
 package com.retail.merchant.controllers;
 
 import com.retail.merchant.entities.MerchantProfile;
-import com.retail.merchant.services.MerchantService;
+import com.retail.merchant.services.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class MerchantProfileController {
 
     @Autowired
-    MerchantService  service;
+    ProfileService service;
 
     @PostMapping("/profile")
     public ResponseEntity<MerchantProfile> createProfile(@RequestBody MerchantProfile profile, @RequestHeader String accessToken) {

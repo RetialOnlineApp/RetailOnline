@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -41,23 +40,27 @@ public class GlobalServiceController {
     }
 
 
-    @RequestMapping(value = "/product", method = RequestMethod.GET,
-            produces = MediaType.IMAGE_JPEG_VALUE)
+    @RequestMapping(value = "/product", method = RequestMethod.GET,produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getProductImage(@RequestParam String pid) {
-
-        ClassPathResource imgFile = new ClassPathResource("products/"+pid+".jpg");
         byte[] bytes = new byte[0];
+        ClassPathResource imgFile;
         try {
+            imgFile = new ClassPathResource("products/" + pid + ".jpg");
             bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            bytes = null;
+        }
+        if (bytes != null) {
             return ResponseEntity
                     .ok()
                     .contentType(MediaType.IMAGE_JPEG)
                     .body(bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.notFound();
-        }
+        } else {
+            return new ResponseEntity<byte[]>(bytes, HttpStatus.NOT_FOUND);
 
+        }
 
 
     }
