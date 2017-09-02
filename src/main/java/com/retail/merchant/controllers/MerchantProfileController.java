@@ -1,5 +1,7 @@
 package com.retail.merchant.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.retail.merchant.domains.Response;
 import com.retail.merchant.entities.MerchantProfile;
 import com.retail.merchant.services.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,12 @@ public class MerchantProfileController {
     @GetMapping("/profile")
     public ResponseEntity<MerchantProfile> getProfile(@RequestHeader String accessToken) {
         return service.getProfile(accessToken);
+    }
+
+    @PostMapping("/profile/updatePassword")
+    public ResponseEntity<Response> updatePassword(@RequestBody JsonNode updatePassword,
+                                                   @RequestHeader String accessToken) {
+       return service.updatePassword(accessToken,  updatePassword);
     }
 
 }

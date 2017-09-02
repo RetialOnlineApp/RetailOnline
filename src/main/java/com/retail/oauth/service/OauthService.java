@@ -134,5 +134,22 @@ public class OauthService {
                 return null;
             }
         }
+
+        public Response updatePassword(String oldPassword, String newPassword, String accessToken) {
+            User byAccessToken = userAuthRepository.findByAccessToken(accessToken);
+            Response response = new Response();
+            try {
+                byAccessToken.setPassword(SecurityService.getMDHash(newPassword));
+                userAuthRepository.save(byAccessToken);
+                response.setStatus("200");
+                response.setUserMessage("password updated successfully");
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.setUserMessage("error while updating password");
+                response.setStatus("500");
+            }
+            return response;
+
+        }
     }
 

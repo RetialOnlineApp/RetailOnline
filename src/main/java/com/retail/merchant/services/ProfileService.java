@@ -1,5 +1,7 @@
 package com.retail.merchant.services;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.retail.merchant.domains.Response;
 import com.retail.merchant.entities.MerchantProfile;
 import com.retail.merchant.repositories.MerchantProfileRepository;
 import com.retail.oauth.entities.User;
@@ -44,5 +46,18 @@ public class ProfileService {
 		}else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
+	}
+
+	public ResponseEntity<Response> updatePassword(String accessToken, JsonNode updatePassword) {
+
+		String oldPassword = updatePassword.get("oldPassword").asText();
+		String newPassword = updatePassword.get("newPassword").asText();
+		Response response = oauthService.updatePassword(oldPassword, newPassword, accessToken);
+		if (response.getStatus().equalsIgnoreCase("200")) {
+			return new ResponseEntity<Response>(response, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<Response>(response, HttpStatus.UNAUTHORIZED);
+		}
+
 	}
 }
