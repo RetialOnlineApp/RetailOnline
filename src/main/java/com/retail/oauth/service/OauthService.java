@@ -168,7 +168,7 @@ public class OauthService {
 
         if (user != null) {
             Integer randomCode = SecurityService.generateRandomCode();
-            user.setOtp(randomCode);
+            user.setOtp(randomCode.toString());
             User save = userAuthRepository.save(user);
             emailService.sendCodeVerificationMail(email, randomCode);
             return randomCode;
@@ -180,11 +180,11 @@ public class OauthService {
 
     public Response resetPassword(JsonNode jsonNode) {
         Response response = new Response();
-        Integer otp = jsonNode.get("otp").asInt();
+        String otp = jsonNode.get("otp").asText();
         String newPassword = jsonNode.get("newPassword").asText();
-        User byOTP = userAuthRepository.findByOtp(otp.toString());
-        Integer savedOtp = byOTP.getOtp();
-        if (otp == savedOtp) {
+        User byOTP = userAuthRepository.findByOtp(otp);
+        String savedOtp = byOTP.getOtp();
+        if (otp.equalsIgnoreCase(savedOtp)) {
             try {
                 byOTP.setPassword(SecurityService.getMDHash(newPassword));
             } catch (NoSuchAlgorithmException e) {

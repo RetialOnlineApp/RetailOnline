@@ -23,14 +23,14 @@ public class User {
     private boolean isVerified;
     private String role;
     boolean loginState;
-    private Integer otp;
+    private String otp;
 
 
-    public Integer getOtp() {
+    public String getOtp() {
         return otp;
     }
 
-    public void setOtp(Integer otp) {
+    public void setOtp(String otp) {
         this.otp = otp;
     }
 
