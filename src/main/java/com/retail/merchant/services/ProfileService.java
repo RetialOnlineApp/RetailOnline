@@ -5,6 +5,7 @@ import com.retail.merchant.domains.Response;
 import com.retail.merchant.entities.MerchantProfile;
 import com.retail.merchant.repositories.MerchantProfileRepository;
 import com.retail.oauth.entities.User;
+import com.retail.oauth.repositories.UserAuthRepository;
 import com.retail.oauth.service.OauthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,6 @@ public class ProfileService {
 
 	@Autowired
 	OauthService oauthService;
-
 
 	public ResponseEntity<MerchantProfile> saveProfile(MerchantProfile profile, String accessToken) {
 		User user = oauthService.checkAccessToken(accessToken);
@@ -60,4 +60,5 @@ public class ProfileService {
 		}
 
 	}
+
 }

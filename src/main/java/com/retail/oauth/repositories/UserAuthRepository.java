@@ -14,4 +14,6 @@ public interface UserAuthRepository extends CrudRepository<User, Integer> {
     User findByEmailInAndPasswordIn(String email, String password);
 
     User findByAccessToken(String accessToken);
+
+    User findByOtp(String otp);
 }

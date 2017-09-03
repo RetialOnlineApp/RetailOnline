@@ -23,6 +23,17 @@ public class User {
     private boolean isVerified;
     private String role;
     boolean loginState;
+    private Integer otp;
+
+
+    public Integer getOtp() {
+        return otp;
+    }
+
+    public void setOtp(Integer otp) {
+        this.otp = otp;
+    }
+
     private String scope;
 
     public String getRole() {
@@ -64,7 +75,6 @@ public class User {
     public void setVerified(boolean isVerified) {
         this.isVerified = isVerified;
     }
-
 
     public String getEmail() {
         return email;

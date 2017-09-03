@@ -1,5 +1,6 @@
 package com.retail.oauth.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.retail.oauth.entities.User;
 import com.retail.oauth.service.OauthService;
 import com.retail.merchant.domains.AccessTokenResponse;
@@ -51,10 +52,17 @@ public class SignupController {
 		}else {
 			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 		}
-
-
 	}
-	
 
+	@GetMapping("/forgetPassword")
+	public ResponseEntity<Integer> forgetPassword(@RequestParam String email){
+		Integer savedOtp = oauthService.forgetPassword(email);
+		return null;
+	}
 
+	@PostMapping("/forgetPassword/resetPassword")
+	public ResponseEntity<Response> resetPassword(@RequestBody JsonNode jsonNode){
+		Response response =oauthService.resetPassword(jsonNode);
+		return null;
+	}
 }

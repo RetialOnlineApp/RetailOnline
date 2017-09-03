@@ -78,4 +78,23 @@ public class EmailService {
 
 		return status;
 	}
+
+	public  boolean sendCodeVerificationMail(String to, int randomCode) {
+
+		String msg = "Four Digit code:: "+ Integer.toString(randomCode);
+		if (isValidEmailAddress(to)) {
+			return sendMail(to,"Retail Code", msg);
+		} else {
+			return false;
+		}
+	}
+
+	/*public String sendEmailToUser(String to, int randomCode) {
+		String msg = "Four Digit code:: "+randomCode;
+		if (isValidEmailAddress(to)) {
+			return sendMail(to,"Retail Code", msg);
+		} else {
+			return false;
+		}
+	}*/
 }
