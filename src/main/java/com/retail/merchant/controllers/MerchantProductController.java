@@ -13,13 +13,13 @@ public class MerchantProductController {
     @Autowired
     ProductService service;
 
-    @PostMapping("/products/add")
+    @PostMapping("/products")
     public ResponseEntity<MerchantProducts> addProduct(@RequestBody MerchantProducts merchantProducts,
                                                       @RequestHeader String accessToken) {
         return service.saveProducts(merchantProducts, accessToken);
     }
 
-    @GetMapping("/products/get")
+    @GetMapping("/products")
     public ResponseEntity<MerchantProducts> getProduct(@RequestHeader String accessToken) {
         return service.getSeletedProducts(accessToken);
     }

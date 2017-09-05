@@ -28,7 +28,7 @@ public class MerchantProfileController {
     @PostMapping("/profile/updatePassword")
     public ResponseEntity<Response> updatePassword(@RequestBody JsonNode updatePassword,
                                                    @RequestHeader String accessToken) {
-       return service.updatePassword(accessToken,  updatePassword);
+       return service.updatePassword(accessToken, updatePassword);
     }
 
 }

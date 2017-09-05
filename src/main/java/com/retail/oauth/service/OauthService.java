@@ -1,17 +1,17 @@
 package com.retail.oauth.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.retail.oauth.entities.User;
-import com.retail.oauth.repositories.UserAuthRepository;
 import com.retail.merchant.domains.AccessTokenResponse;
 import com.retail.merchant.domains.Response;
+import com.retail.oauth.entities.User;
+import com.retail.oauth.repositories.UserAuthRepository;
 import com.retail.util.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import sun.awt.geom.AreaOp;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.invoke.MethodHandles;
 import java.security.NoSuchAlgorithmException;
 
 @Service
@@ -162,19 +162,25 @@ public class OauthService {
 
     }
 
-    public Integer forgetPassword(String email) {
+    public ResponseEntity<Response> forgetPassword(String email) {
         Response response = new Response();
         User user = userAuthRepository.findByEmail(email);
 
         if (user != null) {
-            Integer randomCode = SecurityService.generateRandomCode();
+            Integer randomCode = SecurityService.generateOTP();
             user.setOtp(randomCode.toString());
             User save = userAuthRepository.save(user);
-            emailService.sendCodeVerificationMail(email, randomCode);
-            return randomCode;
+            boolean status = emailService.sendOTPMail(email, randomCode);
+            if (status) {
+                response.setStatus("200");
+                response.setUserMessage("otp sent");
+            }
+
         } else {
-            return null;
+            response.setUserMessage("otp failed");
+            response.setStatus("401");
         }
+        return new ResponseEntity<Response>(response, HttpStatus.OK);
 
     }
 
@@ -187,14 +193,13 @@ public class OauthService {
         if (otp.equalsIgnoreCase(savedOtp)) {
             try {
                 byOTP.setPassword(SecurityService.getMDHash(newPassword));
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
+                userAuthRepository.save(byOTP);
+                response.setStatus("200");
+                response.setUserMessage("Your Password Changed Successfully");
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
-            userAuthRepository.save(byOTP);
-            response.setStatus("201");
-            response.setUserMessage("Your Password Changed Successfully");
         } else {
             response.setStatus("500");
             response.setUserMessage("Invalid otp, Please Try Again");

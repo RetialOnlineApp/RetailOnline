@@ -24,8 +24,7 @@ public class SecurityService {
 		return verifyToken;
 	}
 
-	public static int generateRandomCode() {
-
+	public static int generateOTP() {
 		Random random = new Random();
 		int otp = 0;
 		int length = 0;

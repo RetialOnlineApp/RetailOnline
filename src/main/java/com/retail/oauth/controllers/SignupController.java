@@ -55,14 +55,13 @@ public class SignupController {
 	}
 
 	@GetMapping("/forgetPassword")
-	public ResponseEntity<Integer> forgetPassword(@RequestParam String email){
-		Integer savedOtp = oauthService.forgetPassword(email);
-		return null;
+	public ResponseEntity<Response> forgetPassword(@RequestParam String email){
+		return oauthService.forgetPassword(email);
 	}
 
 	@PostMapping("/forgetPassword/resetPassword")
 	public ResponseEntity<Response> resetPassword(@RequestBody JsonNode jsonNode){
 		Response response =oauthService.resetPassword(jsonNode);
-		return null;
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 }

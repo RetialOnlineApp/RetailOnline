@@ -79,7 +79,7 @@ public class EmailService {
 		return status;
 	}
 
-	public  boolean sendCodeVerificationMail(String to, int randomCode) {
+	public  boolean sendOTPMail(String to, int randomCode) {
 
 		String msg = "Four Digit code:: "+ Integer.toString(randomCode);
 		if (isValidEmailAddress(to)) {
