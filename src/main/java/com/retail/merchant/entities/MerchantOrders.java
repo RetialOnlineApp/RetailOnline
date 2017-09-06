@@ -4,6 +4,7 @@ package com.retail.merchant.entities;
 import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class MerchantOrders {
 
     @Id

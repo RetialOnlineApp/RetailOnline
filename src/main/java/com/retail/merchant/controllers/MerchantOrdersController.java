@@ -5,10 +5,10 @@ import com.retail.merchant.entities.MerchantOrders;
 import com.retail.merchant.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/merchant")
 
 public class MerchantOrdersController {
 

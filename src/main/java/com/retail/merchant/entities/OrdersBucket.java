@@ -3,6 +3,7 @@ package com.retail.merchant.entities;
 
 import javax.persistence.*;
 
+@Entity
 public class OrdersBucket {
 
     @Id
@@ -16,7 +17,6 @@ public class OrdersBucket {
     private String mobileNumber;
     private Float amount;
     private boolean status;
-    private Integer userId;
 
     public Integer getId() {
         return id;
@@ -66,11 +66,5 @@ public class OrdersBucket {
         this.status = status;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 }
