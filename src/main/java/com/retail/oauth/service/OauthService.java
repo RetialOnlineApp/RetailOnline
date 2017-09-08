@@ -188,22 +188,30 @@ public class OauthService {
         Response response = new Response();
         String otp = jsonNode.get("otp").asText();
         String newPassword = jsonNode.get("newPassword").asText();
+
         User byOTP = userAuthRepository.findByOtp(otp);
-        String savedOtp = byOTP.getOtp();
-        if (otp.equalsIgnoreCase(savedOtp)) {
-            try {
-                byOTP.setPassword(SecurityService.getMDHash(newPassword));
-                userAuthRepository.save(byOTP);
-                response.setStatus("200");
-                response.setUserMessage("Your Password Changed Successfully");
+        if(byOTP != null) {
+            String savedOtp = byOTP.getOtp();
+            if (otp.equalsIgnoreCase(savedOtp)) {
+                try {
+                    byOTP.setPassword(SecurityService.getMDHash(newPassword));
+                    byOTP.setOtp(null);
+                    userAuthRepository.save(byOTP);
+                    response.setStatus("200");
+                    response.setUserMessage("Your Password Changed Successfully");
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                response.setStatus("500");
+                response.setUserMessage("Invalid otp, Please Try Again");
             }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
+        }else {
             response.setStatus("500");
             response.setUserMessage("Invalid otp, Please Try Again");
         }
+
         return response;
     }
 }
