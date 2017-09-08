@@ -32,8 +32,7 @@ public class SignupController {
 
 	@PostMapping("/accessToken")
 	public ResponseEntity<AccessTokenResponse> accessToken(@RequestBody User user) {
-		AccessTokenResponse response = oauthService.accessToken(user);
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		return oauthService.accessToken(user);
 
 	}
 

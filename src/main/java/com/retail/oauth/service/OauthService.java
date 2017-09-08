@@ -76,8 +76,9 @@ public class OauthService {
         return response;
     }
 
-    public AccessTokenResponse accessToken(User user) {
+    public ResponseEntity<AccessTokenResponse> accessToken(User user) {
         AccessTokenResponse response = new AccessTokenResponse();
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
         try {
             String passwordHash = SecurityService.getMDHash(user.getPassword());
             User auth = userAuthRepository.findByEmailInAndPasswordIn(user.getEmail(), passwordHash);
@@ -87,13 +88,14 @@ public class OauthService {
                 response.setDeveloperMSG("user message");
                 response.setId(auth.getId());
                 response.setRole(auth.getRole());
+                status = HttpStatus.OK;
             } else {
                 response.setDeveloperMSG("User not found");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return response;
+        return new ResponseEntity<>(response, status);
     }
 
     private boolean sendVerificationMail(User user) {
